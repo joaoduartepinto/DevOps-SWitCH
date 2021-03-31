@@ -35,9 +35,9 @@ After the requirements survey it was analyzed that:
 
 ### Show existing tags
 
-````shell script
+```shell script
 $ git tag
-````
+```
 
 ### Create Tag
 ```shell script
@@ -81,20 +81,20 @@ $ git push --set-upstream origin email-field
 
 ### Adding changes to staging area
 
-````shell script
+```shell script
 $ git add <file_name>
-````
+```
 
 To add all modified files:
-````shell script
+```shell script
 $ git add .
-````
+```
 
 ### Committing changes
 
-````shell script
+```shell script
 $ git commit -m "<commit_message>"
-```` 
+``` 
 
 OR: add to stage, already tracked files, and commit:
 
