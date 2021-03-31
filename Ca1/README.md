@@ -31,9 +31,8 @@ After the requirements survey it was analyzed that:
 
 ## 2. Design
 
-For the realization of this new feature, a new class called Email, must be created to accommodate all the business validations referring to this field.
-Validations will be done through Regex, to ensure that the email provided is valid (for example, check if the email contains an @). It will also have to be validated if the String provided to instantiate an email object is not null, empty or blank.
-If the email is not valid, the content of the variable will contain an "Invalid Email" message to be displayed in front-end.
+For the realization of this new feature, a new attribute called email must be added to Employee class to store the email data.
+Validations will be done through Regex, to ensure that the email provided is valid (for example, check if the email contains an @). It will also have to be validated if the String provided is not null, empty or blank.
 
 To accommodate these changes, an attribute of type Email must be added to the class Employee, in which an object of type String will be accepted in the constructor to be instantiated the attribute when creating an object of type Employee.
 
