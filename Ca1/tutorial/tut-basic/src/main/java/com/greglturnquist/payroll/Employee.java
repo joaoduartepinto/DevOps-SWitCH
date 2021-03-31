@@ -15,11 +15,10 @@
  */
 package com.greglturnquist.payroll;
 
-import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 /**
  * @author Greg Turnquist
@@ -35,15 +34,17 @@ public class Employee {
     private String lastName;
     private String description;
     private String jobTitle;
+    private String email;
 
-    private Employee() {
+    public Employee() {
     }
 
-    public Employee(String firstName, String lastName, String description, String jobTitle) {
+    public Employee(String firstName, String lastName, String description, String jobTitle, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
         this.jobTitle = jobTitle;
+        this.email = email;
     }
 
     @Override
@@ -96,7 +97,11 @@ public class Employee {
     }
 
     public String getJobTitle() {
-		return jobTitle;
+        return jobTitle;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
@@ -107,6 +112,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", description='" + description + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
