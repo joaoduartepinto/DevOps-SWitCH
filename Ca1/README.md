@@ -34,6 +34,12 @@ Current branch have is preceded by *
 $ git push origin email-field
 ```
 
+If no upstream branch is defined use:
+
+```shell script
+$ git push --set-upstream origin email-field
+```
+
 # Analysis of the alternative
 
 
