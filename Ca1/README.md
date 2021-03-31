@@ -21,7 +21,13 @@ The requirements raised after analyzing the document provided by the client are 
 
 ## 1.3. Analysis
 
+After the requirements survey it was analyzed that:
 
+- A new field must be added to display email information;
+
+- Front-end and serve side must be changed and updated to comply with requirements;
+
+- There should be validations of the email field on the server side.
 
 ## 2. Design
 
