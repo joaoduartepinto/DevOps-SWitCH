@@ -35,12 +35,12 @@ After the requirements survey it was analyzed that:
 
 ### Show existing tags
 
-```shell script
+```
 $ git tag
 ```
 
 ### Create Tag
-```shell script
+```
 $ git tag -a v1.2.0 -m "Version 1.2.0."
 ```
 
@@ -62,7 +62,7 @@ $ git checkout "email-field"
 ```
 
 ### Show all branches and current branch
-```shell script
+```
 $ git branch
 ```
 
