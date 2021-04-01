@@ -439,13 +439,13 @@ Fossil is a distributed version control system, like Git, Mercurial and Bazaar.
     -  Chatroom;
     -  Timelines;
     -  Full text search;
-    -  Graphs of revision and branching history
-    -  File and version lists and differences
-    -  Historical change data
-    -  Add and remove tags on check-ins
-    -  Move check-ins between branches
-    -  Revise check-in comments
-    -  Manage user credentials and access permissions
+    -  Graphs of revision and branching history;
+    -  File and version lists and differences;
+    -  Historical change data;
+    -  Add and remove tags on check-ins;
+    -  Move check-ins between branches;
+    -  Revise check-in comments;
+    -  Manage user credentials and access permissions;
     -  And more...
 
 - Is a **All-in-one** single self-contained, stand-alone executable.
@@ -462,6 +462,20 @@ Reference: [Fossil/Home](https://fossil-scm.org/)
 
 ### 4.2. Differences Between Fossil And Git
 
+
+| Git | Fossil |
+|---|---|
+| File versioning only | VCS, tickets, wiki, docs, notes, forum, chat, UI |
+| A federation of many small programs | One self-contained, stand-alone executable |
+| Custom key/value data store | SQLite |
+| Runs natively on POSIX systems | Runs natively on both POSIX and Windows |
+| [Bazaar-style]() development | [Cathedral-style]() development |
+| Designed for Linux kernel development | Designed for SQLite development |
+| Many contributors | Select contributors |
+| Focus on individual branches | Focus on the entire tree of changes |
+| One check-out per repository | Many check-outs per repository |
+| Remembers what you should have done | Remembers what you actually did |
+| Commit first | Test first |
 
 Reference: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)
 
