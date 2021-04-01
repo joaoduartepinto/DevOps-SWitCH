@@ -330,7 +330,7 @@ After the first phase of TDD, validations were implemented to make the tests pas
 [...]
 ```
 
-### 3.5. Committing Changes
+### 3.5. Commiting Changes
 
 With each new development step, commits were performed, to be saved snapshots of each version.
 
@@ -349,7 +349,7 @@ $ git add .
 
 Then, make the commit:
 
-#### Committing changes
+#### Commiting changes
 
 ```
 $ git commit -m "<commit_message>"
@@ -363,7 +363,7 @@ $ git commit -a -m "<commit_message>"
 
 ### 3.6. Merging branches and pushing to remote repository
 
-After the development of the new functionality in a separate branch, it is necessary to make the merge with the master branch and put the new feature in the remote repository.
+After the development of the new functionality in a separate branch, it is necessary to merge with the master branch and put the new feature in the remote repository.
 
 First, we must checkout to the local master branch:
 
@@ -411,7 +411,15 @@ $ git push origin v1.3.0
 
 ### 3.7. Bug-Fixing
 
+A bug was discovered in production. The email field only made validations of null, empty or white, not making validation if the entered email was in a valid email format.
 
+- For the bug fixing, the following steps were performed:
+    1. A new branch was created: fix-invalid-email;
+    2. Checkout was made for the new branch;
+    3. With each change iteration were commited the altered files;
+    4. Upon completion of the changes, checkout was made to the local master branch;
+    5. Merged fix-invalid-email into master;
+    6. Finally, changes were sent to the remote repository, a new tag was created with the new version (v.1.3.1), and the new tag was sent to the remote repository.
 
 ## Analysis of the alternative
 
