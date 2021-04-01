@@ -1,4 +1,4 @@
-# Description of the analysis, design and implementation of the requirements
+# Ca1 - Version Control Systems
 
 ## 1. Requirements and Analysis
 
@@ -40,7 +40,7 @@ Changes will also have to be made on the front end, to display the email field. 
 
 ## 3. Implementation
 
-Next, it will be demonstrated how the implementation was made using the Git version control system:
+Next, it will be demonstrated how the implementation was made using the **Git** version control system:
 
 ### 3.1. The current version was tagged with the tag v.1.2.0
 
@@ -411,7 +411,7 @@ $ git push origin v1.3.0
 
 ### 3.7. Bug-Fixing
 
-A bug was discovered in production. The email field only made validations of null, empty or white, not making validation if the entered email was in a valid email format.
+A bug was discovered in production. The email field only made validations of null, empty or blank, not making validation if the entered email was in a valid email format.
 
 - For the bug fixing, the following steps were performed:
     1. A new branch was created: fix-invalid-email;
@@ -421,7 +421,23 @@ A bug was discovered in production. The email field only made validations of nul
     5. Merged fix-invalid-email into master;
     6. Finally, changes were sent to the remote repository, a new tag was created with the new version (v.1.3.1), and the new tag was sent to the remote repository.
 
-## Analysis of the alternative
+## 4. Analysis of the alternative - **Fossil**
+
+The alternative chosen was the **[Fossil](https://fossil-scm.org/)** version control system.
+
+### 4.1. What is?
 
 
-## Implementation of the alternative
+Reference: [Fossil/Home](https://fossil-scm.org/)
+
+### 4.2. Differences Between Fossil And Git
+
+
+Reference: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)
+
+### 4.3. Why Fossil over Git?
+
+
+Reference: [SQLite/Why SQLite Does Not Use Git](https://www.sqlite.org/whynotgit.html)
+
+## 5. Implementation of the alternative
