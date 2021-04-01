@@ -130,9 +130,9 @@ public class Employee {
 
         String emailRegex = "[A-Z0-9a-z._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
 
-        Pattern patttern = Pattern.compile(emailRegex);
+        Pattern pattern = Pattern.compile(emailRegex);
 
-        return patttern.matcher(email).matches();
+        return pattern.matcher(email).matches();
     }
 
     public Long getId() {
