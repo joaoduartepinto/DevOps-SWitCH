@@ -15,11 +15,10 @@
  */
 package com.greglturnquist.payroll;
 
-import java.util.Objects;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 /**
  * @author Greg Turnquist
@@ -35,15 +34,22 @@ public class Employee {
     private String lastName;
     private String description;
     private String jobTitle;
+    private String email;
 
-    private Employee() {
+    public Employee() {
     }
 
-    public Employee(String firstName, String lastName, String description, String jobTitle) {
+    public Employee(String firstName, String lastName, String description, String jobTitle, String email) {
+        checkFirstName(firstName);
+        checkLastName(lastName);
+        checkDescription(description);
+        checkJobTitle(jobTitle);
+        checkEmail(email);
         this.firstName = firstName;
         this.lastName = lastName;
         this.description = description;
         this.jobTitle = jobTitle;
+        this.email = email;
     }
 
     @Override
@@ -63,6 +69,66 @@ public class Employee {
         return Objects.hash(id, firstName, lastName, description);
     }
 
+    private void checkFirstName(String firstName) {
+        if (!isFirstNameValid(firstName))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isFirstNameValid(String firstName) {
+        if (firstName == null || firstName.isBlank() || firstName.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkLastName(String lastName) {
+        if (!isLastNameValid(lastName))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isLastNameValid(String lastName) {
+        if (lastName == null || lastName.isBlank() || lastName.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkDescription(String description) {
+        if (!isDescriptionValid(description))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isDescriptionValid(String description) {
+        if (description == null || description.isBlank() || description.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkJobTitle(String jobTitle) {
+        if (!isJobTitleValid(jobTitle))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isJobTitleValid(String jobTitle) {
+        if (jobTitle == null || jobTitle.isBlank() || jobTitle.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkEmail(String email) {
+        if (!isEmailValid(email))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isEmailValid(String email) {
+        if (email == null || email.isBlank() || email.isBlank())
+            return false;
+
+        return true;
+    }
+
     public Long getId() {
         return id;
     }
@@ -76,6 +142,7 @@ public class Employee {
     }
 
     public void setFirstName(String firstName) {
+        checkFirstName(firstName);
         this.firstName = firstName;
     }
 
@@ -84,6 +151,7 @@ public class Employee {
     }
 
     public void setLastName(String lastName) {
+        checkLastName(lastName);
         this.lastName = lastName;
     }
 
@@ -92,11 +160,16 @@ public class Employee {
     }
 
     public void setDescription(String description) {
+        checkDescription(description);
         this.description = description;
     }
 
     public String getJobTitle() {
-		return jobTitle;
+        return jobTitle;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
@@ -107,6 +180,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", description='" + description + '\'' +
                 ", jobTitle='" + jobTitle + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }
