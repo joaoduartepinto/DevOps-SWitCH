@@ -363,17 +363,55 @@ $ git commit -a -m "<commit_message>"
 
 ### 3.6. Merging branches and pushing to remote repository
 
+After the development of the new functionality in a separate branch, it is necessary to make the merge with the master branch and put the new feature in the remote repository.
+
+First, we must checkout to the local master branch:
+
+#### Checkout to master
+
+```
+$ git checkout master
+```
+
+Then we must pull changes from remote master, as there may be changes in the remote that are not on the local machine:
+
 #### Pull changes from remote
 
 ```
 $ git pull origin <branch_name>
 ```
 
+Then the merge is done in the master on the local machine with the branch that is intended, in this case, with the email-field branch:
+
 #### Merge another branch with current one
 
 ```
 $ git merge <branch_name>
 ```
+
+Finally, send the changes to the remote repository, create a new tag with the new version, and also sends the new tag to the remote repository
+
+#### Push to remote repository
+
+```
+$ git push origin master
+```
+
+#### Create new tag
+
+```
+$ git tag -a v1.3.0 -m "Version 1.3.0."
+```
+
+#### Push tag to remote repository
+
+```
+$ git push origin v1.3.0
+```
+
+### 3.7. Bug-Fixing
+
+
 
 ## Analysis of the alternative
 
