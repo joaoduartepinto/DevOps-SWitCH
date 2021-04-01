@@ -19,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * @author Greg Turnquist
@@ -83,7 +84,7 @@ public class Employee {
 
     private void checkLastName(String lastName) {
         if (!isLastNameValid(lastName))
-            throw new IllegalArgumentException("Invalid First Name");
+            throw new IllegalArgumentException("Invalid Last Name");
     }
 
     private boolean isLastNameValid(String lastName) {
@@ -95,7 +96,7 @@ public class Employee {
 
     private void checkDescription(String description) {
         if (!isDescriptionValid(description))
-            throw new IllegalArgumentException("Invalid First Name");
+            throw new IllegalArgumentException("Invalid Description");
     }
 
     private boolean isDescriptionValid(String description) {
@@ -107,7 +108,7 @@ public class Employee {
 
     private void checkJobTitle(String jobTitle) {
         if (!isJobTitleValid(jobTitle))
-            throw new IllegalArgumentException("Invalid First Name");
+            throw new IllegalArgumentException("Invalid Job Title");
     }
 
     private boolean isJobTitleValid(String jobTitle) {
@@ -119,14 +120,19 @@ public class Employee {
 
     private void checkEmail(String email) {
         if (!isEmailValid(email))
-            throw new IllegalArgumentException("Invalid First Name");
+            throw new IllegalArgumentException("Invalid Email");
     }
 
+    // adapted from: https://mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
     private boolean isEmailValid(String email) {
         if (email == null || email.isBlank() || email.isBlank())
             return false;
 
-        return true;
+        String emailRegex = "[A-Z0-9a-z._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+
+        Pattern patttern = Pattern.compile(emailRegex);
+
+        return patttern.matcher(email).matches();
     }
 
     public Long getId() {

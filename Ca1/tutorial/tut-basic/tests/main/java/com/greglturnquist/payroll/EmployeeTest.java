@@ -137,4 +137,46 @@ class EmployeeTest {
     void shouldThrowBlankEmail(String blankEmail) {
         assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, blankEmail));
     }
+
+    @DisplayName("Valid Emails")
+    @ParameterizedTest
+    @ValueSource(strings = {"homer@gmail.com", "lisa.simpson@outlook.pt", "sanders87@yahoo.com"})
+    void validEmails(String validEmail) {
+        assertDoesNotThrow(() -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, validEmail));
+    }
+
+    @DisplayName("Invaild Email, two '@'")
+    @Test
+    void shouldThrowInvalidEmailTwoAT() {
+        String invalidEmail = "homer@@gmail.com";
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, invalidEmail));
+    }
+
+    @DisplayName("Invaild Email, no '@'")
+    @Test
+    void shouldThrowInvalidEmailNoAT() {
+        String invalidEmail = "homergmail.com";
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, invalidEmail));
+    }
+
+    @DisplayName("Invaild Email, invalid Domain")
+    @Test
+    void shouldThrowInvalidEmailInvalidDomain() {
+        String invalidEmail = "homer@gmail.c";
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, invalidEmail));
+    }
+
+    @DisplayName("Invaild Email, string with space")
+    @Test
+    void shouldThrowInvalidEmailStringWithSpace() {
+        String invalidEmail = "ho mer@gmail.com";
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, invalidEmail));
+    }
+
+    @DisplayName("Invaild Email, illegal character")
+    @Test
+    void shouldThrowInvalidEmailIllegalCharacter() {
+        String invalidEmail = "h!omer@gmail.com";
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, invalidEmail));
+    }
 }
