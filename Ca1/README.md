@@ -427,6 +427,36 @@ The alternative chosen was the **[Fossil](https://fossil-scm.org/)** version con
 
 ### 4.1. What is?
 
+Fossil is a distributed version control system, like Git, Mercurial and Bazaar.
+
+- Has a **Built-in Web Interface**, that runs in a instance of Fossil. The Web Interface is themeable, extensible and intuitive and has:
+    -  Ticketing;
+    -  Bug tracking;
+    -  Wiki;
+    -  On-line documentation;
+    -  Technical notes;
+    -  Forum;
+    -  Chatroom;
+    -  Timelines;
+    -  Full text search;
+    -  Graphs of revision and branching history
+    -  File and version lists and differences
+    -  Historical change data
+    -  Add and remove tags on check-ins
+    -  Move check-ins between branches
+    -  Revise check-in comments
+    -  Manage user credentials and access permissions
+    -  And more...
+
+- Is a **All-in-one** single self-contained, stand-alone executable.
+
+- Fossil is **Self-host Friendly**, most projects can be hosted on a virtual private server or even on a Raspberry Pi.
+
+- Supports **Autosync** mode, in which automatically keeps your changes in synchronization with your co-workers through the use of a central server.
+
+- Is **Robust and Reliable**, transactions are atomic, even if interrupted by a power loss or system crash. Automatic self-checks verify that all aspects of the repository are consistent prior to each commit.
+
+- The last, but not the least: it's **Free and Open-Source**!
 
 Reference: [Fossil/Home](https://fossil-scm.org/)
 
