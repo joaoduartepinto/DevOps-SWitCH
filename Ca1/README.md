@@ -40,23 +40,31 @@ Changes will also have to be made on the front end, to display the email field. 
 
 ## 3. Implementation
 
-### Show existing tags
+Next, it will be demonstrated how the implementation was made using the Git version control system:
+
+### 3.1. The current version was tagged with the tag v.1.2.0
+
+#### Show existing tags
 
 ```
 $ git tag
 ```
 
-### Create Tag
+#### Create Tag
 ```
 $ git tag -a v1.2.0 -m "Version 1.2.0."
 ```
 
-### Push Tag to remote repository
+#### Push Tag to remote repository
 ```
 $ git push origin v1.2.0
 ```
 
-### Creating new branch @ local
+### 3.2. A new branch was created to develop the new feature (email-field)
+
+The branch of work was changed to the branch created for the development of the feature, then it was pushed to the remote repository.
+
+#### Creating new branch @ local
 ```
 $ git checkout -b "email-field"
 ```
@@ -68,14 +76,14 @@ $ git branch "email-field"
 $ git checkout "email-field"
 ```
 
-### Show all branches and current branch
+#### Show all branches and current branch
 ```
 $ git branch
 ```
 
 The current branch is preceded by *
 
-### Push branch to remote repository
+#### Push branch to remote repository
 ```
 $ git push origin email-field
 ```
@@ -86,7 +94,249 @@ If no upstream branch is defined use:
 $ git push --set-upstream origin email-field
 ```
 
-### Adding changes to staging area
+### 3.4. Code
+
+Changes were made to accept the email field in Employee class, but without validations:
+
+```
+public class Employee {
+
+    private @Id
+    @GeneratedValue
+    Long id; // <2>
+    private String firstName;
+    private String lastName;
+    private String description;
+    private String jobTitle;
+    private String email;
+
+    public Employee() {
+    }
+
+    public Employee(String firstName, String lastName, String description, String jobTitle, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
+        this.jobTitle = jobTitle;
+        this.email = email;
+    }
+
+[...]
+
+}
+```
+
+Then the tests were written for the validations of the Class Employee fields. The test driven development process was applied, so they were written tests that failed:
+
+```
+[...]
+
+    @DisplayName("Null First Name")
+    @Test
+    void shouldThrowNullFirstName() {
+        String nullFirstName = null;
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(nullFirstName, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Empty First Name")
+    @Test
+    void shouldThrowEmptyFirstName() {
+        String emptyFirstName = "";
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(emptyFirstName, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Blank First Name")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "  ", "   "})
+    void shouldThrowBlankFirstName(String blankFirstName) {
+        assertThrows(IllegalArgumentException.class, () -> new Employee(blankFirstName, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Null Last Name")
+    @Test
+    void shouldThrowNullLastName() {
+        String nullLastName = null;
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, nullLastName, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Empty Last Name")
+    @Test
+    void shouldThrowEmptyLastName() {
+        String emptyLastName = "";
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, emptyLastName, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Blank Last Name")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "  ", "   "})
+    void shouldThrowBlankLastName(String blankLastName) {
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, blankLastName, VALID_DESCRIPTION, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Null Description")
+    @Test
+    void shouldThrowNullDescription() {
+        String nullDescription = null;
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, nullDescription, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Empty Description")
+    @Test
+    void shouldThrowEmptyDescription() {
+        String emptyDescription = "";
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, emptyDescription, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Blank Description")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "  ", "   "})
+    void shouldThrowBlankDescription(String blankDescription) {
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, blankDescription, VALID_JOBTITLE, VALID_EMAIL));
+    }
+
+    @DisplayName("Null Job Title")
+    @Test
+    void shouldThrowNullJobTitle() {
+        String nullJobTitle = null;
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, nullJobTitle, VALID_EMAIL));
+    }
+
+    @DisplayName("Empty Job Title")
+    @Test
+    void shouldThrowEmptyJobTitle() {
+        String emptyJobTitle = "";
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, emptyJobTitle, VALID_EMAIL));
+    }
+
+    @DisplayName("Blank Job Title")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "  ", "   "})
+    void shouldThrowBlankJobTitle(String blankJobTitle) {
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, blankJobTitle, VALID_EMAIL));
+    }
+
+    @DisplayName("Null Email")
+    @Test
+    void shouldThrowNullEmail() {
+        String nullEmail = null;
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, nullEmail));
+    }
+
+    @DisplayName("Empty Email")
+    @Test
+    void shouldThrowEmptyEmail() {
+        String emptyEmail = "";
+
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, emptyEmail));
+    }
+
+    @DisplayName("Blank Email")
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "  ", "   "})
+    void shouldThrowBlankEmail(String blankEmail) {
+        assertThrows(IllegalArgumentException.class, () -> new Employee(VALID_FIRST_NAME, VALID_LAST_NAME, VALID_DESCRIPTION, VALID_JOBTITLE, blankEmail));
+    }
+
+[...]
+```
+
+After the first phase of TDD, validations were implemented to make the tests pass:
+
+```
+[...]
+
+    public Employee(String firstName, String lastName, String description, String jobTitle, String email) {
+        checkFirstName(firstName);
+        checkLastName(lastName);
+        checkDescription(description);
+        checkJobTitle(jobTitle);
+        checkEmail(email);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
+        this.jobTitle = jobTitle;
+        this.email = email;
+    }
+
+    private void checkFirstName(String firstName) {
+        if (!isFirstNameValid(firstName))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isFirstNameValid(String firstName) {
+        if (firstName == null || firstName.isBlank() || firstName.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkLastName(String lastName) {
+        if (!isLastNameValid(lastName))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isLastNameValid(String lastName) {
+        if (lastName == null || lastName.isBlank() || lastName.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkDescription(String description) {
+        if (!isDescriptionValid(description))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isDescriptionValid(String description) {
+        if (description == null || description.isBlank() || description.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkJobTitle(String jobTitle) {
+        if (!isJobTitleValid(jobTitle))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isJobTitleValid(String jobTitle) {
+        if (jobTitle == null || jobTitle.isBlank() || jobTitle.isBlank())
+            return false;
+
+        return true;
+    }
+
+    private void checkEmail(String email) {
+        if (!isEmailValid(email))
+            throw new IllegalArgumentException("Invalid First Name");
+    }
+
+    private boolean isEmailValid(String email) {
+        if (email == null || email.isBlank() || email.isBlank())
+            return false;
+
+        return true;
+    }
+
+[...]
+```
+
+### 3.5. Committing Changes
+
+With each new development step, commits were performed, to be saved snapshots of each version.
+
+First, add the files we want to commit to the staging area:
+
+#### Adding changes to staging area
 
 ```
 $ git add <file_name>
@@ -97,7 +347,9 @@ To add all modified files:
 $ git add .
 ```
 
-### Committing changes
+Then, make the commit:
+
+#### Committing changes
 
 ```
 $ git commit -m "<commit_message>"
@@ -109,13 +361,15 @@ OR: add to stage, already tracked files, and commit:
 $ git commit -a -m "<commit_message>"
 ```
 
-### Pull changes from remote
+### 3.6. Merging branches and pushing to remote repository
+
+#### Pull changes from remote
 
 ```
 $ git pull origin <branch_name>
 ```
 
-### Merge another branch with current one
+#### Merge another branch with current one
 
 ```
 $ git merge <branch_name>
