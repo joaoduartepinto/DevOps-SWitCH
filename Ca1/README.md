@@ -527,25 +527,35 @@ In contrast, Fossil has the option to display all check-ins that are derived, fo
 #### 4.3.3. The mental model for Git is needlessly complex
 
 >"The complexity of Git distracts attention from the software under development. A user of Git needs to keep all of the following in mind:
-> - The working directory:
-> - The "index" or staging area
-> - The local head
-> - The local copy of the remote head
-> - The actual remote head
+>   - The working directory:
+>   - The "index" or staging area
+>   - The local head
+>   - The local copy of the remote head
+>   - The actual remote head"
   
->Git has commands (and/or options on commands) for moving and comparing content between all of these locations.
+>"Git has commands (and/or options on commands) for moving and comparing content between all of these locations."
 
->In contrast, Fossil users only need to think about their working directory and the check-in they are working on. That is 60% less distraction. Every developer has a finite number of brain-cycles. Fossil requires fewer brain-cycles to operate, thus freeing up intellectual resources to focus on the software under development."
+>"In contrast, Fossil users only need to think about their working directory and the check-in they are working on. That is 60% less distraction. Every developer has a finite number of brain-cycles. Fossil requires fewer brain-cycles to operate, thus freeing up intellectual resources to focus on the software under development."
 
 #### 4.3.4. Git does not track historical branch names
 
+Fossil is able to clearly show the history that happened in old branches, where it started, the merges and the relevant information. Git, using third-party GUIs, is unable to clearly show what happened in the past.
 
 #### 4.3.5. Git requires more administrative support
 
+>"Git is complex software. One needs an installer of some kind to put Git on a developer workstation, or to upgrade to a newer version of Git. Standing up a Git server is non-trivial, and so most developers use a third-party service such as GitHub or GitLab, and thus introduce additional dependencies."
+
+In turn, Fossil can be installed just by placing the binary in the $PATH. With just one binary, Fossil has the functionality of Git and GitHub/GitLab.
+
+Regarding the hardware needed to run a Fossil instance, a free (or cheap) virtual private server or a Raspberry Pi can be used, whereas GitLab and similar require better hardware.
 
 #### 4.3.6. Git provides a poor user experience
 
+![Git](../Ca1/assets/git.png)
 
+Image from: [xkcd.com](https://xkcd.com/1597/)
+
+>"Designing software is hard. It takes a lot of focus. A good version control system should provide the developer with assistance, not frustration. Git has gotten better in this regard over the past decade, but it still has a long way to go."
 
 Reference: [SQLite/Why SQLite Does Not Use Git](https://www.sqlite.org/whynotgit.html)
 
