@@ -462,20 +462,50 @@ Reference: [Fossil/Home](https://fossil-scm.org/)
 
 ### 4.2. Differences Between Fossil And Git
 
+A short summary of the differences between Git and Fossil:
 
-| Git | Fossil |
-|---|---|
+| **Git** | **Fossil** |
+|:---:|:---:|
 | File versioning only | VCS, tickets, wiki, docs, notes, forum, chat, UI |
 | A federation of many small programs | One self-contained, stand-alone executable |
 | Custom key/value data store | SQLite |
 | Runs natively on POSIX systems | Runs natively on both POSIX and Windows |
-| [Bazaar-style]() development | [Cathedral-style]() development |
+| [Bazaar-style](https://www.computerworld.com/article/2534926/which-platform--cathedral-or-bazaar-.html) development | [Cathedral-style](https://www.computerworld.com/article/2534926/which-platform--cathedral-or-bazaar-.html) development |
 | Designed for Linux kernel development | Designed for SQLite development |
 | Many contributors | Select contributors |
 | Focus on individual branches | Focus on the entire tree of changes |
 | One check-out per repository | Many check-outs per repository |
 | Remembers what you should have done | Remembers what you actually did |
 | Commit first | Test first |
+*Adapted from: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)*
+
+### 4.2.1. Featureful
+
+>"Fossil adds an integrated wiki, ticketing & bug tracking, embedded documentation, technical notes, a web forum, and a chat service, all within a single web UI, protected by a fine-grained role-based access control system."
+
+>"Fossil can do operations over all local repo clones and check-out directories with a single command. For example, Fossil lets you say "fossil all sync" on a laptop prior to taking it off the network hosting those repos."
+
+>"Fossil is small, complete, and self-contained. If you clone Git's self-hosting repository, you get just Git's source code. If you clone Fossil's self-hosting repository, you get the entire Fossil website — source code, documentation, ticket history, and so forth."
+
+>"For developers who choose to self-host projects (rather than using a 3rd-party service such as GitHub) Fossil is much easier to set up, since the stand-alone Fossil executable together with a 2-line CGI script suffice to instantiate a full-featured developer website."
+
+### 4.2.2. Self Contained
+
+>"Fossil is a single self-contained stand-alone executable which by default depends only on common platform libraries."
+
+### 4.2.3. Development Organization
+
+The Fossil development mode is Cathedral style. Fossil places a lot of emphasis on synchronizing all developers, so that everyone has a real vision of what is happening in the project.
+
+### 4.2.4. What you should have done vs. What you actually did
+
+>"Git puts a lot of emphasis on maintaining a "clean" check-in history. Extraneous and experimental branches by individual developers often never make it into the main repository. Branches may be rebased before being pushed to make it appear as if development had been linear, or "squashed" to make it appear that multiple commits were made as a single commit."
+
+>"Fossil, in contrast, puts more emphasis on recording exactly what happened, including all of the messy errors, dead-ends, experimental branches, and so forth. One might argue that this makes the history of a Fossil project "messy," but another point of view is that this makes the history "accurate." In actual practice, the superior reporting tools available in Fossil mean that the added "mess" is not a factor."
+
+### 4.2.5. Test Before Commit
+
+>"One of the things that falls out of Git's default separation of commit from push is that there are several Git sub-commands that jump straight to the commit step before a change could possibly be tested. Fossil, by contrast, makes the equivalent change to the local working check-out only, requiring a separate check-in step to commit the change. This design difference falls naturally out of Fossil's default-enabled autosync feature and its philosophy of not offering history rewriting features."
 
 Reference: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)
 
