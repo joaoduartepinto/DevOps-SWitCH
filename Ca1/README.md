@@ -527,11 +527,11 @@ In contrast, Fossil has the option to display all check-ins that are derived, fo
 #### 4.3.3. The mental model for Git is needlessly complex
 
 >"The complexity of Git distracts attention from the software under development. A user of Git needs to keep all of the following in mind:
->   - The working directory:
->   - The "index" or staging area
->   - The local head
->   - The local copy of the remote head
->   - The actual remote head"
+   - The working directory:
+   - The "index" or staging area
+   - The local head
+   - The local copy of the remote head
+   - The actual remote head"
   
 >"Git has commands (and/or options on commands) for moving and comparing content between all of these locations."
 
@@ -625,3 +625,59 @@ $ fossil init devops.fossil
 ```
 
 The repository can have any name, but the extension .fossil is used traditionally. As we are going to use this repository as a remote server, the .fossil extension is mandatory.
+
+After the comand, project-id, server-id, admin user and initial password will be displayed.
+
+Then, we must checkout a Local Tree:
+
+```
+$ fossil open <repository_name>
+```
+
+If the directory isn't empty, force flag must be used:
+
+```
+$ fossil open <repository_name> --force
+```
+
+Keep in mind in what's displayed in terminal, we will need the repository path.
+
+To serve this repository, we need to make some configuration on UI, to init the web server:
+
+```
+$ fossil serve <repository_path>
+
+Listening for HTTP requests on TCP port 8080
+```
+
+Then, on web browser we go to server ip address plus port, in this case 8080, like:
+
+- <ip_addess>:8080
+
+Log with credentials showed before and set Project Name to: DevOps, then hit Apply Changes.
+
+![project_name](../Ca1/assets/project_name.png)
+
+As Fossil uses a cathedral-style development method, we have to create a user for each employee. We will create a user so that we can later clone the repository to the personal computer.
+
+Go to the "Admin" tab, select "Users", then hit "Add". We must then fill in the requested fields and, for this purpose, make the new user Admin.
+
+![add_new_user](../Ca1/assets/add_new_user.png)
+
+To finish what we need to do on the server, we go back to the terminal and put the job to run in the backgroung:
+
+Press: crtl + z to stop and then make it run on background.
+
+```
+$ bg
+```
+
+To avoid doing this step, when starting the server, you can add the "&" at the end to put it running in the background.
+
+```
+$ fossil serve <repository_path> &
+```
+
+Now, its time to work on the personal computer!
+
+### 5.2. Clone repository to local machine
