@@ -477,9 +477,10 @@ A short summary of the differences between Git and Fossil:
 | One check-out per repository | Many check-outs per repository |
 | Remembers what you should have done | Remembers what you actually did |
 | Commit first | Test first |
+
 *Adapted from: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)*
 
-### 4.2.1. Featureful
+#### 4.2.1. Featureful
 
 >"Fossil adds an integrated wiki, ticketing & bug tracking, embedded documentation, technical notes, a web forum, and a chat service, all within a single web UI, protected by a fine-grained role-based access control system."
 
@@ -489,27 +490,61 @@ A short summary of the differences between Git and Fossil:
 
 >"For developers who choose to self-host projects (rather than using a 3rd-party service such as GitHub) Fossil is much easier to set up, since the stand-alone Fossil executable together with a 2-line CGI script suffice to instantiate a full-featured developer website."
 
-### 4.2.2. Self Contained
+#### 4.2.2. Self Contained
 
 >"Fossil is a single self-contained stand-alone executable which by default depends only on common platform libraries."
 
-### 4.2.3. Development Organization
+#### 4.2.3. Development Organization
 
 The Fossil development mode is Cathedral style. Fossil places a lot of emphasis on synchronizing all developers, so that everyone has a real vision of what is happening in the project.
 
-### 4.2.4. What you should have done vs. What you actually did
+#### 4.2.4. What you should have done vs. What you actually did
 
 >"Git puts a lot of emphasis on maintaining a "clean" check-in history. Extraneous and experimental branches by individual developers often never make it into the main repository. Branches may be rebased before being pushed to make it appear as if development had been linear, or "squashed" to make it appear that multiple commits were made as a single commit."
 
 >"Fossil, in contrast, puts more emphasis on recording exactly what happened, including all of the messy errors, dead-ends, experimental branches, and so forth. One might argue that this makes the history of a Fossil project "messy," but another point of view is that this makes the history "accurate." In actual practice, the superior reporting tools available in Fossil mean that the added "mess" is not a factor."
 
-### 4.2.5. Test Before Commit
+#### 4.2.5. Test Before Commit
 
 >"One of the things that falls out of Git's default separation of commit from push is that there are several Git sub-commands that jump straight to the commit step before a change could possibly be tested. Fossil, by contrast, makes the equivalent change to the local working check-out only, requiring a separate check-in step to commit the change. This design difference falls naturally out of Fossil's default-enabled autosync feature and its philosophy of not offering history rewriting features."
 
 Reference: [Fossil/Fossil Versus Git](https://fossil-scm.org/home/doc/trunk/www/fossil-v-git.wiki)
 
 ### 4.3. Why Fossil over Git?
+
+#### 4.3.1. Git does not provide good situational awareness
+
+Using Fossil as VCS in a project, to know the status of the entire project, just go to the timeline, and in a single screen you can see a summary of the latest changes to the project, in all branches. Using Git, it is necessary to use third-party graphical viewers in order to have the detail and ease of visualization.
+
+#### 4.3.2. Git makes it difficult to find successors (descendents) of a check-in
+
+>"Git lets you look backwards in time, but not forwards. Given some historical check-in, you can see what came before, but it is challenging see what came next."
+
+It is not impossible, but it is extremely difficult to find descendants using Git.
+
+In contrast, Fossil has the option to display all check-ins that are derived, for example, from the last release.
+
+#### 4.3.3. The mental model for Git is needlessly complex
+
+>"The complexity of Git distracts attention from the software under development. A user of Git needs to keep all of the following in mind:
+> - The working directory:
+> - The "index" or staging area
+> - The local head
+> - The local copy of the remote head
+> - The actual remote head
+  
+>Git has commands (and/or options on commands) for moving and comparing content between all of these locations.
+
+>In contrast, Fossil users only need to think about their working directory and the check-in they are working on. That is 60% less distraction. Every developer has a finite number of brain-cycles. Fossil requires fewer brain-cycles to operate, thus freeing up intellectual resources to focus on the software under development."
+
+#### 4.3.4. Git does not track historical branch names
+
+
+#### 4.3.5. Git requires more administrative support
+
+
+#### 4.3.6. Git provides a poor user experience
+
 
 
 Reference: [SQLite/Why SQLite Does Not Use Git](https://www.sqlite.org/whynotgit.html)
