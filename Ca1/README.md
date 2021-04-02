@@ -560,3 +560,68 @@ Image from: [xkcd.com](https://xkcd.com/1597/)
 Reference: [SQLite/Why SQLite Does Not Use Git](https://www.sqlite.org/whynotgit.html)
 
 ## 5. Implementation of the alternative
+
+Now, the implementation will be demonstrated using Fossil as a version control system.
+
+### 5.1. Remote Repository Set-up
+
+A Raspberry Pi was used to host the remote repository, being accessed through the local network.
+
+The operating system running on the Raspberry Pi is Ubuntu Server 20.04 LTS, previously configured to access the local network and with openssh-server installed so that it can be accessed by another machine.
+
+#### ssh into server
+
+To access the server, the personal computer must be in same network as the server.
+
+My personal computer is a Macbook, so, just need to open the terminal without having to install third-party software and ssh into server:
+
+```
+$ ssh <user>@<ip_address_of_server>
+```
+
+On the ubuntu server, to know the IP address just enter the following command:
+
+```
+$ hostname -i
+```
+
+#### Fossil installation
+
+After logging into the server, it is necessary to install Fossil. The chosen way of installation was through the following command:
+
+```
+$ sudo apt install fossil
+```
+
+To confirm that the installation was successful we can see the version of the fossil that is being used.
+
+```
+$ fossil version
+
+This is fossil version 2.12.1
+```
+
+#### Creating new project
+
+A new folder was created in the user's home directory with the name "devops", to house the repository. The current directory was moved to this new folder to start the repository.
+
+```
+$ mkdir devops
+$ cd devops/
+```
+
+So let's start the Fossil repository!
+
+```
+$ fossil init <repository_name>
+```
+
+The name of the repository used was: devops.fossil.
+
+So command used was:
+
+```
+$ fossil init devops.fossil
+```
+
+The repository can have any name, but the extension .fossil is used traditionally. As we are going to use this repository as a remote server, the .fossil extension is mandatory.
