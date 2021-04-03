@@ -891,13 +891,29 @@ And finally, commit the merge:
 $ fossil commit
 ```
 
-### 6. Final thoughts
+### 6. Access to repository
+
+You can find a copy of the repository [here](../Ca1/devops.fossil)!
+
+If you have fossil on your local machine, just copy the repository, and, inside the directory that have the copy use this command:
+
+```
+$ fossil open <repository_name>
+```
+
+In this case:
+
+```
+$ fossil open devops.fossil
+```
+
+### 7. Final thoughts
 
 As has been shown, Fossil is a distributed version control system capable of being a competitor against Git, and offering a lot of features that Git alone does not.
 
 Of the large drawbacks found, the lack of use on the part of the developer community means that not much information is found, although the information found is of quality. The number of services capable of hosting a Fossil repository is also small, only http://chiselapp.com and http://fossilrepos.sourceforge.net have this capability.
 
-### 7. References
+### 8. References
 
 - [Pro Git](https://git-scm.com/book/en/v2)
 - [Fossil Book](http://www.fossil-scm.org/schimpf-book/doc/2ndEdition/fossilbook.pdf)
