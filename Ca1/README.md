@@ -840,3 +840,38 @@ $ fossil tag add <tag_name> <check-in>
 ![tag1](../Ca1/assets/tag1.png)
 
 ![tag1](../Ca1/assets/tag2.png)
+
+### 5.5. Creating a new branch
+
+In fossil we can create branches by:
+
+```
+$ fossil branch new <branch_name> <check-in_that_the_branch_splits_off_from>
+```
+
+![branch](../Ca1/assets/branch.png)
+
+Current branch is preceded by *
+
+![branch2](../Ca1/assets/branch2.png)
+
+To change between branches:
+
+```
+$ fossil update <branch_name>
+```
+
+![branch3](../Ca1/assets/branch3.png)
+
+### 5.6. Code and Bug-Fixing
+
+
+### 5.7. Merge branch with trunk
+
+
+### 6. Final thoughts
+
+
+### 7. References
+
+
