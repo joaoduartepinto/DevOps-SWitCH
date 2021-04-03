@@ -804,6 +804,16 @@ $ fossil update <branch_name_OR_tag_OR_abbreviation_of_check-in>
 ```
 
 Fossil pull automatically when you run update and a push automatically after you commit.
+
+#### Offline mode
+
+When trying to make a commit without an internet connection/server, Fossil will notice that there is no connection and ask if you want to continue. If you decide to continue the changes will be saved locally. Later, when the connection is restored, just run the following command to synchronize with the server:
+
+```
+$ fossil sync
+```
+
+Offline support exists too for the web interface, using the *fossil server* command on the personal computer lets open and edit what is needed (like adding tickets), even offline, and then later sync with remote.
  
 ### 5.3. Tickets
 
@@ -814,3 +824,19 @@ Go to Tickets section and add tickets.
 ![tickets](../Ca1/assets/tickets.png)
 
 ### 5.4. Tags
+
+You can tag in various ways, for example through the commit, with the --tag flag, and each check-in can have several tags, just by repeating the flag:
+
+```
+$ fossil commit --tag <tag_name>
+```
+
+You can also add tags to existing check-ins:
+
+```
+$ fossil tag add <tag_name> <check-in>
+```
+
+![tag1](../Ca1/assets/tag1.png)
+
+![tag1](../Ca1/assets/tag2.png)
