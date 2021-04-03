@@ -527,6 +527,7 @@ In contrast, Fossil has the option to display all check-ins that are derived, fo
 #### 4.3.3. The mental model for Git is needlessly complex
 
 >"The complexity of Git distracts attention from the software under development. A user of Git needs to keep all of the following in mind:
+   
    - The working directory:
    - The "index" or staging area
    - The local head
