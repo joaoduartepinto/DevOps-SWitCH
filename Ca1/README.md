@@ -899,11 +899,11 @@ Of the large drawbacks found, the lack of use on the part of the developer commu
 
 ### 7. References
 
-[Pro Git](https://git-scm.com/book/en/v2)
-[Fossil Book](http://www.fossil-scm.org/schimpf-book/doc/2ndEdition/fossilbook.pdf)
-[Fossil - Website](https://fossil-scm.org/)
-[SQLite](https://www.sqlite.org/whynotgit.html)
-[A FAREWELL TO FOSSIL VERSION CONTROL](https://www.omiyagames.com/blog/2014/02/15/farewell-fossil-version-control/)
+- [Pro Git](https://git-scm.com/book/en/v2)
+- [Fossil Book](http://www.fossil-scm.org/schimpf-book/doc/2ndEdition/fossilbook.pdf)
+- [Fossil - Website](https://fossil-scm.org/)
+- [SQLite](https://www.sqlite.org/whynotgit.html)
+- [A FAREWELL TO FOSSIL VERSION CONTROL](https://www.omiyagames.com/blog/2014/02/15/farewell-fossil-version-control/)
 
 
 
