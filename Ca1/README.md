@@ -772,3 +772,44 @@ Here we can see demonstrated one of Fossil's capabilities, as autosync by defaul
 ![check-ins](../Ca1/assets/check-ins.png)
 
 ![files-tree](../Ca1/assets/files-tree.png)
+
+#### Autosync, pull, push, sync and update
+
+Autosync can be turned off:
+
+```
+$ fossil settings autosync off
+```
+
+If so, to put the changes in the remote repository, it is necessary to pull and push:
+
+```
+$ fossil pull <URL>
+$ fossil push <URL>
+```
+
+OR: both at same time with:
+
+```
+$ fossil sync <URL>
+```
+
+If you omit the URL argument, fossil will use whatever server you most recently synced with.
+
+When you pull in changes from others, they go into your repository, not into your checked-out local tree. To get the changes into your local tree, use update:
+
+```
+$ fossil update <branch_name_OR_tag_OR_abbreviation_of_check-in>
+```
+
+Fossil pull automatically when you run update and a push automatically after you commit.
+ 
+### 5.3. Tickets
+
+Fossil allows you to use the ticketing system, provided by the Web Interface. There is no need to use third-party applications, as was used in the first part of this tutorial, which used the Bitbucket issues system.
+
+Go to Tickets section and add tickets.
+
+![tickets](../Ca1/assets/tickets.png)
+
+### 5.4. Tags
