@@ -389,7 +389,7 @@ Then the merge is done in the master on the local machine with the branch that i
 $ git merge <branch_name>
 ```
 
-Finally, send the changes to the remote repository, create a new tag with the new version, and also sends the new tag to the remote repository
+Finally, send the changes to the remote repository, create a new tag with the new version, also sends the new tag to the remote repository
 
 #### Push to remote repository
 
@@ -642,7 +642,7 @@ $ fossil open <repository_name> --force
 
 Keep in mind in what's displayed in terminal, we will need the repository path.
 
-To serve this repository, we need to make some configuration on UI, to init the web server:
+To serve this repository, we need to make some configuration on the UI, to init the web server:
 
 ```
 $ fossil serve <repository_path>
@@ -652,7 +652,7 @@ Listening for HTTP requests on TCP port 8080
 
 Then, on web browser we go to server ip address plus port, in this case 8080, like:
 
-- <ip_addess>:8080
+- <ip_address>:8080
 
 Log with credentials showed before and set Project Name to: DevOps, then hit Apply Changes.
 
@@ -664,9 +664,9 @@ Go to the "Admin" tab, select "Users", then hit "Add". We must then fill in the 
 
 ![add_new_user](../Ca1/assets/add_new_user.png)
 
-To finish what we need to do on the server, we go back to the terminal and put the job to run in the backgroung:
+To finish what we need to do on the server, we go back to the terminal and put the job to run in the background:
 
-Press: crtl + z to stop and then make it run on background.
+Press: ctrl + z to stop and then make it run on background.
 
 ```
 $ bg
@@ -678,6 +678,97 @@ To avoid doing this step, when starting the server, you can add the "&" at the e
 $ fossil serve <repository_path> &
 ```
 
-Now, its time to work on the personal computer!
+Now, it's time to work on the personal computer!
 
-### 5.2. Clone repository to local machine
+### 5.2. Install Fossil and clone repository to local machine
+
+#### Fossil Installation
+
+The Homebrew package manager was used to install Fossil on the MacOs operating system.
+
+```
+$ brew install fossil
+```
+
+A folder was created to house the project on the local machine. The repository was then cloned into that folder.
+
+The HTTP protocol was used to access the remote repository, using the following command:
+
+```
+$ fossil clone http://<username>@<ip_address>:<port> <repository-filename>
+```
+
+In this case:
+
+```
+$ fossil clone http://1201765@<ip_address>:8080 devops.fossil
+```
+
+Enter the password setted before, and the clone will succeed.
+
+Now, we have to put a copy of the initial project inside the repository folder to do the implementation using Fossil.
+
+#### Push the base project into remote
+
+Open local tree, with force flag, directory already have initial tut-basic source code:
+
+```
+$ fossil open devops.fossil -f
+```
+
+Now, add all files to be commited:
+
+```
+$ fossil add .
+```
+
+Oh no! Files of /target/ and /node_modules/ have been added...
+
+Anyway, we must reset the added files, create a file to ignore files and add again:
+
+#### Reset added files
+
+```
+$ fossil add --reset
+```
+
+#### Ignoring files - ignore-glob
+
+At the root of the project a directory with name: .fossil-settings
+
+```
+$ mkdir .fossil-settings
+$ cd .fossil-settings
+```
+
+Inside the new folder create a file named ignore-glob, and per line put the glob that we want to ignore:
+
+```
+$ nano ignore-glob
+```
+
+![ignore-glob](../Ca1/assets/ignore-glob.png)
+
+Now add files again, you will see that the ignored directories will not be added
+
+![added-files](../Ca1/assets/added-files.png)
+
+#### Commiting
+
+To commit type the following comand to commit:
+
+```
+$ fossil commit
+```
+
+Default text editor will open to introduce commit message, like:
+
+![commit-message](../Ca1/assets/commit-message.png)
+
+Here we can see demonstrated one of Fossil's capabilities, as autosync by default is active, when a commit is made, the remote repository is automatically pulled (to download possible changes in remote), also automatically pushes to the remote with the contents of the commit.
+
+![autosync](../Ca1/assets/autosync.png)
+
+![check-ins](../Ca1/assets/check-ins.png)
+
+![files-tree](../Ca1/assets/files-tree.png)
