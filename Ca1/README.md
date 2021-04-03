@@ -873,10 +873,37 @@ With each iteration of change, commits were made.
 
 ### 5.7. Merging branches
 
+To merge two branches we must switch to the branch we want to merge into:
+
+```
+$ fossil update <branch_name>
+```
+
+Then, merge:
+
+```
+$ fossil merge <branch_to_be_incorporated>
+```
+
+And finally, commit the merge:
+
+```
+$ fossil commit
+```
 
 ### 6. Final thoughts
 
+As has been shown, Fossil is a distributed version control system capable of being a competitor against Git, and offering a lot of features that Git alone does not.
+
+Of the large drawbacks found, the lack of use on the part of the developer community means that not much information is found, although the information found is of quality. The number of services capable of hosting a Fossil repository is also small, only http://chiselapp.com and http://fossilrepos.sourceforge.net have this capability.
 
 ### 7. References
+
+[Pro Git](https://git-scm.com/book/en/v2)
+[Fossil Book](http://www.fossil-scm.org/schimpf-book/doc/2ndEdition/fossilbook.pdf)
+[Fossil - Website](https://fossil-scm.org/)
+[SQLite](https://www.sqlite.org/whynotgit.html)
+[A FAREWELL TO FOSSIL VERSION CONTROL](https://www.omiyagames.com/blog/2014/02/15/farewell-fossil-version-control/)
+
 
 
