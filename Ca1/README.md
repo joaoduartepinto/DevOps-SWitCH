@@ -865,8 +865,13 @@ $ fossil update <branch_name>
 
 ### 5.6. Code and Bug-Fixing
 
+Here were the steps taken in the first part of this tutorial.
 
-### 5.7. Merge branch with trunk
+With each iteration of change, commits were made.
+
+![final_tree](../Ca1/assets/final_tree.png)
+
+### 5.7. Merging branches
 
 
 ### 6. Final thoughts
