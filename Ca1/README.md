@@ -725,6 +725,8 @@ $ fossil add .
 
 Oh no! Files of /target/ and /node_modules/ have been added...
 
+![ohnomeme](../Ca1/assets/ohnomeme.png)
+
 Anyway, we must reset the added files, create a file to ignore files and add again:
 
 #### Reset added files
