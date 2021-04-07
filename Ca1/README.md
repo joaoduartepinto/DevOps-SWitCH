@@ -502,7 +502,11 @@ The Fossil development mode is Cathedral style. Fossil places a lot of emphasis 
 
 >"Git puts a lot of emphasis on maintaining a "clean" check-in history. Extraneous and experimental branches by individual developers often never make it into the main repository. Branches may be rebased before being pushed to make it appear as if development had been linear, or "squashed" to make it appear that multiple commits were made as a single commit."
 
->"Fossil, in contrast, puts more emphasis on recording exactly what happened, including all of the messy errors, dead-ends, experimental branches, and so forth. One might argue that this makes the history of a Fossil project "messy," but another point of view is that this makes the history "accurate." In actual practice, the superior reporting tools available in Fossil mean that the added "mess" is not a factor."
+>"Fossil, in contrast, puts more emphasis on recording exactly what happened, including all of the messy errors, dead-ends, experimental branches, and so forth. One might argue that this makes the history of a Fossil project "messy," but another point of view is that this makes the history "accurate." In actual practice, the superior reporting tools available in Fossil mean that the added "mess" is not a factor.
+
+As an example, although several branches have been used, as they are always part of the same story line, there is no distinction as to what actually happened:
+
+![git-history](../Ca1/assets/git-history.png)
 
 #### 4.2.5. Test Before Commit
 
