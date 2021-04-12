@@ -88,3 +88,9 @@ task backup(type: Copy) {
     from 'src'
     into 'backup'
 }
+
+task zipSrc(type: Zip) {
+    from 'src'
+    archiveName('zipSrc.zip')
+    destinationDir(file('zipSource'))
+}
