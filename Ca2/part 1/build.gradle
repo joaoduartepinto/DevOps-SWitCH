@@ -30,7 +30,7 @@ dependencies {
 
 
 }
- 
+
 
 // Define the main class for the application
 mainClassName = 'basic_demo.App'
@@ -44,17 +44,16 @@ jar {
         attributes "Main-Class": "basic_demo.App"
     }
 
-   from {
+    from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
 
-
-task runClient(type:JavaExec, dependsOn: classes){
+task runClient(type: JavaExec, dependsOn: classes) {
     group = "DevOps"
     description = "Launches a chat client that connects to a server on localhost:59001 "
-  
+
     classpath = sourceSets.main.runtimeClasspath
 
     main = 'basic_demo.ChatClientApp'
@@ -62,7 +61,7 @@ task runClient(type:JavaExec, dependsOn: classes){
     args 'localhost', '59001'
 }
 
-task runServer(type: JavaExec, dependsOn: classes){
+task runServer(type: JavaExec, dependsOn: classes) {
     group = "DevOps"
     description = "Launches the server in localhost:59001 "
 
@@ -80,7 +79,12 @@ task runServer(type: JavaExec, dependsOn: classes){
 }
 
 test {
-    filter{
+    filter {
         includeTestsMatching 'basic_demo.AppTest'
     }
+}
+
+task backup(type: Copy) {
+    from 'src'
+    into 'backup'
 }
