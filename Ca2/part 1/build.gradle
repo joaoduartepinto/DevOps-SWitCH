@@ -57,3 +57,9 @@ task runClient(type:JavaExec, dependsOn: classes){
 
     args 'localhost', '59001'
 }
+
+task runServer(type: JavaExec){
+    exec{
+        commandLine 'java', '-cp', 'build/libs/basic_demo-0.1.0.jar', 'basic_demo.ChatServerApp', '59001'
+    }
+}
