@@ -118,6 +118,17 @@ sourceSets {
 }
 ```
 
+Dependencies were added for Junit (version: 4.12):
+```
+dependencies {
+    // Use Apache Log4J for logging
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.11.2'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+    // https://mvnrepository.com/artifact/junit/junit
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+```
+
 To run the tests and see a scan in website of gradle we can execute the following comand and access the link that is provided:
 
 ```
