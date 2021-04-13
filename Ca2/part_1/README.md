@@ -1,4 +1,4 @@
-# Ca2 - Part 1 -Demo Gradle
+# Ca2 - Part 1 - Demo Gradle
 
 ## 1. Downloading example
 
@@ -130,4 +130,59 @@ In the testing field we should see the following:
 
 ## 5. Task to Copy src folder
 
+To create a task of type Copy, the type must be declared:
+
+```
+task <name_of_task> (type: Copy) {
+
+}
+```
+
+So let's create a task that copies the files from the src/ folder to a backup folder, for that, within the task, the "from" and the "into" must be declared:
+
+```
+task backup(type: Copy) {
+    from 'src'
+    into 'backup'
+}
+```
+
+To execute the task run:
+
+```
+$ gradle backup
+```
+
+And a backup folder must have been created.
+
 ## 6. Task to Zip src folder
+
+To create a task of type Zip, the type must be declared:
+
+```
+task <name_of_task> (type: Zip) {
+
+}
+```
+
+So let's create a task that creates a zipped file from the src/ folder, for that, within the task, the "from", "archiveName" and the "destinationDir" must be declared:
+
+```
+task zipSrc(type: Zip) {
+    from 'src'
+    archiveName('zipSrc.zip')
+    destinationDir(file('zipSource'))
+}
+```
+
+To execute the task run:
+
+```
+$ gradle zipSrc
+```
+
+And a zipped file with name zipSrc.zip must have been created.
+
+## 7. References
+
+[Gradle User Manual](https://docs.gradle.org/current/userguide/userguide.html)
