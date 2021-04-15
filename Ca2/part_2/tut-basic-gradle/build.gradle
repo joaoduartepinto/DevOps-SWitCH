@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	// Added to run fronted
-	id "org.siouan.frontend" version "1.4.1"
+    id 'org.springframework.boot' version '2.4.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    // Added to run fronted
+    id "org.siouan.frontend" version "1.4.1"
 }
 
 group = 'com.devops20-21'
@@ -11,25 +11,30 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 // Task to run webpack
 frontend {
-	nodeVersion = "12.13.1"
-	assembleScript = "run webpack"
+    nodeVersion = "12.13.1"
+    assembleScript = "run webpack"
 }
 
-
+// Task to Copy generated jar to a folder named "dist"
+task copyJar(type: Copy) {
+    from 'build/libs'
+    include '*.jar'
+    into './dist/'
+}
