@@ -20,6 +20,8 @@
 
 ## 3. Experiment all the developed features
 
+## 3.1. Running tests
+
 ## 4. Alternative
 
 ### 4.1. Analysis
