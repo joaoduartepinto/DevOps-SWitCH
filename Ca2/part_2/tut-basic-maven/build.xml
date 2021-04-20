@@ -1,0 +1,14 @@
+<project name="tut-basic-maven"  basedir=".">
+
+    <target name="deleteWebpackFiles">
+        <delete includeEmptyDirs="true">
+            <fileset dir="src/main/resources/static/built"/>
+        </delete>
+    </target>
+
+    <target name="copyJar">
+        <copy file="target/tut-basic-maven-0.0.1-SNAPSHOT.jar" todir="dist/"/>
+    </target>
+
+
+</project>
