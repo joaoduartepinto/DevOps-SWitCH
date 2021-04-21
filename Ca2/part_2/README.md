@@ -215,11 +215,11 @@ In turn, as maven is a widely used tool in the market (for example, bazel makes 
 
 In this section we will do the analysis between maven and gradle.
 
-### 4.1.1. Before Maven - Ant
+#### 4.1.1. Before Maven - Ant
 
 Before we start talking about Maven we have to start by talking about its predecessor, Ant, which was launched in 2000, in order to automate the build processes. Ant alone does not do dependency management and has to be used in conjunction with Ivy. One of the Ant capabilities is that it allows the creation of tasks, which are called targets.
 
-### 4.1.2. Maven
+#### 4.1.2. Maven
 
 To allow the management of dependencies in a single file (pom.xml), Maven was born in 2005. It also allows the use of plugins for the execution of specific tasks in the build process.
 
@@ -227,7 +227,7 @@ The use of a single configuration file makes it easier to manage dependencies, b
 
 Maven uses a build pattern, which are the phases of the build cycle. With the use of plugins it is allowed to make an adaptation in the execution of tasks. A problem can arise when there is a project with its own characteristics and that there are no plugins to accomplish what you want ... Maven allows you to create customs plugins, but it can be a complex process.
 
-### 4.1.3. Gradle
+#### 4.1.3. Gradle
 
 In a nutshell, Gradle brings together the good in Maven and Ant.
 
@@ -237,7 +237,7 @@ The tool has the features of Maven and the flexibility of Ant, suggesting itself
 
 Gradle uses DSL in Groovy to create the configuration file, called build.gradle, which allows you to program the configuration and schedule custom tasks to perform automated tasks, as performed in the first part of this tutorial.
 
-### 4.1.4. Resume of diferences
+#### 4.1.4. Resume of diferences
 
 >"Gradle is not a rival to Maven, in fact he came to improve what already existed!"
 
@@ -258,7 +258,266 @@ Gradle uses DSL in Groovy to create the configuration file, called build.gradle,
 
 ### 4.2. Implementation
 
+So let's walk through the implementation of the alternative.
+
+#### 4.2.1. Setup
+
+As we did in the first part, we created an empty maven project, replacing the src folder and copying the files webpack.config.js and package.json.
+
+#### 4.2.2. pom.xml
+
+pom.xml at this moment
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.4.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<groupId>com.devops</groupId>
+	<artifactId>tut-basic-maven</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+</project>
+```
+
+#### 4.2.3. Add necessary dependencies and plugins
+
+Below the properties, we must place the necessary dependencies and plugins within the build:
+
+```
+[...]
+<dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+    
+        <plugins>
+    
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <installDirectory>target</installDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <configuration>
+                            <nodeVersion>v10.11.0</nodeVersion>
+                            <npmVersion>6.4.1</npmVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>webpack build</id>
+                        <goals>
+                            <goal>webpack</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+[...]
+```
+
+#### 4.2.4. Custom tasks (using Ant tasks)
+
+For the usual copy and delete tasks we will use the tasks available in the ant. We then need to create a build.xml file:
+
+```
+<project name="tut-basic-maven"  basedir=".">
+
+</project>
+```
+
+We then add the respective tasks to the build.xml file:
+
+```
+[...]
+
+  <target name="deleteWebpackFiles">
+        <delete includeEmptyDirs="true">
+            <fileset dir="src/main/resources/static/built"/>
+        </delete>
+    </target>
+
+    <target name="copyJar">
+        <copy file="target/tut-basic-maven-0.0.1-SNAPSHOT.jar" todir="dist/"/>
+    </target>
+    
+[...]
+```
+
+to run these tasks through maven we have to use the AntRun plugin. In pom.xml, inside the plugins we should put:
+
+```
+[...]
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <id>deleteWebpackFiles</id>
+                        <configuration>
+                            <target>
+                                <ant antfile="${basedir}/build.xml">
+                                    <target name="deleteWebpackFiles"/>
+                                </ant>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>copyJar</id>
+                        <configuration>
+                            <target>
+                                <ant antfile="${basedir}/build.xml">
+                                    <target name="copyJar"/>
+                                </ant>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+[...]
+```
+
+Note that for the task of deleting files generated by Webpack, the clean phase was placed to be executed when mvn clean.
+
+#### 4.2.5. Explore
+
+To generate the jar file and the files generated by the webpack we can run:
+
+```
+$ mvn install
+```
+
+#### 4.2.5.1. Execute task copyJar
+
+To execute the copyJar task run the following command:
+
+```
+$ mvn antrun:run@copyJar
+```
+
+After executing the command, a new directory called "dist" was created at the root of the project and inside it will be the .jar file.
+
+#### 4.2.5.2. Execute task deleteWebpackFiles
+
+To execute the deleteWebpackFiles task run the following command:
+
+```
+$ mvn antrun:run@deleteWebpackFiles
+```
+
+After executing the command, the /src/main/resources/static/built/ folder have been deleted.
+
+#### 4.2.5.3. Execute task clean
+
+To check if the deleteWebpackFiles task is executed before the **clean** task, we have to create the files and directory again, running the build command again.
+
+To execute the clean task run the following command:
+
+```
+$ mvn clean
+```
+
+After executing the command, the /src/main/resources/static/built/ folder have been deleted.
+
 ## 5. References
 
 [Spring](https://spring.io)
 [Gradle](https://gradle.com)
+[Maven vs Gradle : quem ganha, afinal?](https://deviniciative.wordpress.com/2019/06/23/maven-vs-gradle-quem-ganha-afinal/)
+[Introduction to the Build Lifecycle](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference)
