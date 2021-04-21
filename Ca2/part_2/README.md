@@ -203,9 +203,58 @@ Following the link and the result must be:
 
 ![build-scan](./assets/build-scan.png)
 
-## 4. Alternative
+## 4. Alternative - Maven
+
+After trying other alternatives, like bazel, sbt and ant, and having failed in all of them, I decided to choose **maven** as an alternative.
+
+The implementation failures of the alternatives were due to the difficulty of configuring the necessary dependencies for the project, always leading to failed builds.
+
+In turn, as maven is a widely used tool in the market (for example, bazel makes use of the Maven repository to add dependencies), using this alternative may prove to be an acquisition of skills that may be needed in the future.
 
 ### 4.1. Analysis
+
+In this section we will do the analysis between maven and gradle.
+
+### 4.1.1. Before Maven - Ant
+
+Before we start talking about Maven we have to start by talking about its predecessor, Ant, which was launched in 2000, in order to automate the build processes. Ant alone does not do dependency management and has to be used in conjunction with Ivy. One of the Ant capabilities is that it allows the creation of tasks, which are called targets.
+
+### 4.1.2. Maven
+
+To allow the management of dependencies in a single file (pom.xml), Maven was born in 2005. It also allows the use of plugins for the execution of specific tasks in the build process.
+
+The use of a single configuration file makes it easier to manage dependencies, but, as it is an XML file, the same extension problems can happen as in Ant.
+
+Maven uses a build pattern, which are the phases of the build cycle. With the use of plugins it is allowed to make an adaptation in the execution of tasks. A problem can arise when there is a project with its own characteristics and that there are no plugins to accomplish what you want ... Maven allows you to create customs plugins, but it can be a complex process.
+
+### 4.1.3. Gradle
+
+In a nutshell, Gradle brings together the good in Maven and Ant.
+
+Gradle manages dependencies and automates the build process, just like Maven, but allows the use of Maven, Ivy and private repositories.
+
+The tool has the features of Maven and the flexibility of Ant, suggesting itself as an evolution in the build tools.
+
+Gradle uses DSL in Groovy to create the configuration file, called build.gradle, which allows you to program the configuration and schedule custom tasks to perform automated tasks, as performed in the first part of this tutorial.
+
+### 4.1.4. Resume of diferences
+
+>"Gradle is not a rival to Maven, in fact he came to improve what already existed!"
+
+- Maven:
+    - Uses XML;
+    - Convention over configuration;
+    - Configuration file: pom.xml;
+    - Plugin based;
+    - Compound and fixed build cycle and standard goals.
+    
+- Gradle:
+    - Uses DLS based in Groovy;
+    - Uses conventions but allows flexibility;
+    - Configuration file: build.gradle;
+    - Uses plugins;
+    - It uses the concept of tasks, containing built-in taks and allows the creation of new classes, it also allows to customize the build process;
+    - Highly configurable!
 
 ### 4.2. Implementation
 
