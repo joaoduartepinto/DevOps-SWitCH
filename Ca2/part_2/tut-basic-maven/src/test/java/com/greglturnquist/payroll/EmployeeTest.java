@@ -1,4 +1,4 @@
-package main.java.com.greglturnquist.payroll;
+package com.greglturnquist.payroll;
 
 import com.greglturnquist.payroll.Employee;
 import org.junit.jupiter.api.DisplayName;
