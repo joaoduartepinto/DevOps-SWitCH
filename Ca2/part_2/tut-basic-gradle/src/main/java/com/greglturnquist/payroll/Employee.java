@@ -76,7 +76,7 @@ public class Employee {
     }
 
     private boolean isFirstNameValid(String firstName) {
-        if (firstName == null || firstName.isBlank() || firstName.isBlank())
+        if (firstName == null || firstName.isEmpty() || firstName.trim().length() == 0)
             return false;
 
         return true;
@@ -88,7 +88,7 @@ public class Employee {
     }
 
     private boolean isLastNameValid(String lastName) {
-        if (lastName == null || lastName.isBlank() || lastName.isBlank())
+        if (lastName == null || lastName.isEmpty() || lastName.trim().length() == 0)
             return false;
 
         return true;
@@ -100,7 +100,7 @@ public class Employee {
     }
 
     private boolean isDescriptionValid(String description) {
-        if (description == null || description.isBlank() || description.isBlank())
+        if (description == null || description.isEmpty() || description.trim().length() == 0)
             return false;
 
         return true;
@@ -112,7 +112,7 @@ public class Employee {
     }
 
     private boolean isJobTitleValid(String jobTitle) {
-        if (jobTitle == null || jobTitle.isBlank() || jobTitle.isBlank())
+        if (jobTitle == null || jobTitle.isEmpty() || jobTitle.trim().length() == 0)
             return false;
 
         return true;
@@ -125,7 +125,7 @@ public class Employee {
 
     // adapted from: https://mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
     private boolean isEmailValid(String email) {
-        if (email == null || email.isBlank() || email.isBlank())
+        if (email == null || email.isEmpty() || email.trim().length() == 0)
             return false;
 
         String emailRegex = "[A-Z0-9a-z._%-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
