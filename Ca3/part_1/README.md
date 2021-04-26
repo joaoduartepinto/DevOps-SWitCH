@@ -91,6 +91,8 @@ an argument, instead of localhost.
 
 #### 4.1.2. Why we must run the client on Host machine?
 
+The chat application uses the Java Swing framework, which allows you to create GUIs, so the client only having a desktop
+environment can start the chat application GUI.
 
 ### 4.2. tut-basic-gradle and tut-basic-maven
 
