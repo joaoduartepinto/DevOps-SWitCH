@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
       chmod u+x gradlew
       ./gradlew clean build
       # To deploy the war file to tomcat8 do the following command:
-      sudo cp ./build/libs/basic-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
+      sudo cp ./build/libs/0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
     SHELL
 
   end
