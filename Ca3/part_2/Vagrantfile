@@ -65,17 +65,17 @@ Vagrant.configure("2") do |config|
 
       # Install gradle version 7.0
 
-      cd /tmp
+      #cd /tmp
 
-      wget https://services.gradle.org/distributions/gradle-7.0-bin.zip
+      #wget https://services.gradle.org/distributions/gradle-7.0-bin.zip
 
-      sudo unzip -d /opt/gradle gradle-7.0-bin.zip
+      #sudo unzip -d /opt/gradle gradle-7.0-bin.zip
 
-      sudo echo "export GRADLE_HOME=/opt/gradle/gradle-7.0" "export PATH=$PATH:/opt/gradle/gradle-7.0/bin" >> /etc/profile.d/gradle.sh
+      #sudo echo "export GRADLE_HOME=/opt/gradle/gradle-7.0" "export PATH=$PATH:/opt/gradle/gradle-7.0/bin" >> /etc/profile.d/gradle.sh
 
-      source /etc/profile.d/gradle.sh
+      #sudo source /etc/profile.d/gradle.sh
 
-      cd ~
+      #cd /
 
       # If you want to access Tomcat admin web page do the following:
       # Edit /etc/tomcat8/tomcat-users.xml
@@ -87,7 +87,7 @@ Vagrant.configure("2") do |config|
       chmod u+x gradlew
       ./gradlew clean build
       # To deploy the war file to tomcat8 do the following command:
-      sudo cp ./build/libs/0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
+      sudo cp ./build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
     SHELL
 
   end
