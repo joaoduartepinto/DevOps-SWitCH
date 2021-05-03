@@ -83,7 +83,6 @@ Vagrant.configure("2") do |config|
 
       # Change the following command to clone your own repository!
       git clone https://joaoswitch@bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765.git
-      git checkout vagrant
       cd /devops-20-21-1201765/Ca3/part_2/tut-basic-gradle/
       chmod u+x gradlew
       ./gradlew clean build
