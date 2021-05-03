@@ -4,6 +4,7 @@ plugins {
     id 'java'
     // Added to run fronted
     id "org.siouan.frontend" version "1.4.1"
+    id "war"
 }
 
 group = 'com.devops20-21'
@@ -20,6 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 test {
