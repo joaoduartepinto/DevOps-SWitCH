@@ -1,0 +1,81 @@
+# See: https://manski.net/2016/09/vagrant-multi-machine-tutorial/
+# for information about machine names on private network
+Vagrant.configure("2") do |config|
+  config.vm.box = "envimation/ubuntu-xenial"
+
+  # This provision is common for both VMs
+  config.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update -y
+    sudo apt-get install iputils-ping -y
+    sudo apt-get install -y avahi-daemon libnss-mdns
+    sudo apt-get install -y unzip
+    sudo apt-get install openjdk-8-jdk-headless -y
+    # ifconfig
+  SHELL
+
+  #============
+  # Configurations specific to the database VM
+  config.vm.define "db" do |db|
+    db.vm.box = "envimation/ubuntu-xenial"
+    db.vm.hostname = "db"
+    db.vm.network "private_network", ip: "192.168.33.11"
+
+    # We want to access H2 console from the host using port 8082
+    # We want to connet to the H2 server using port 9092
+    db.vm.network "forwarded_port", guest: 8082, host: 8082
+    db.vm.network "forwarded_port", guest: 9092, host: 9092
+
+    # We need to download H2
+    db.vm.provision "shell", inline: <<-SHELL
+      wget https://repo1.maven.org/maven2/com/h2database/h2/1.4.200/h2-1.4.200.jar
+    SHELL
+
+    # The following provision shell will run ALWAYS so that we can execute the H2 server process
+    # This could be done in a different way, for instance, setiing H2 as as service, like in the following link:
+    # How to setup java as a service in ubuntu: http://www.jcgonzalez.com/ubuntu-16-java-service-wrapper-example
+    #
+    # To connect to H2 use: jdbc:h2:tcp://192.168.33.11:9092/./jpadb
+    db.vm.provision "shell", :run => 'always', inline: <<-SHELL
+      java -cp ./h2*.jar org.h2.tools.Server -web -webAllowOthers -tcp -tcpAllowOthers -ifNotExists > ~/out.txt &
+    SHELL
+  end
+
+  #============
+  # Configurations specific to the webserver VM
+  config.vm.define "web" do |web|
+    web.vm.box = "envimation/ubuntu-xenial"
+    web.vm.hostname = "web"
+    web.vm.network "private_network", ip: "192.168.33.10"
+
+    # We set more ram memmory for this VM
+    web.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
+    # We want to access tomcat from the host using port 8080
+    web.vm.network "forwarded_port", guest: 8080, host: 8080
+
+    web.vm.provision "shell", inline: <<-SHELL, privileged: false
+      sudo apt-get install git -y
+      sudo apt-get install nodejs -y
+      sudo apt-get install npm -y
+      sudo ln -s /usr/bin/nodejs /usr/bin/node
+      sudo apt install tomcat8 -y
+      sudo apt install tomcat8-admin -y
+      # If you want to access Tomcat admin web page do the following:
+      # Edit /etc/tomcat8/tomcat-users.xml
+      # uncomment tomcat-users and add manager-gui to tomcat user
+
+      # Change the following command to clone your own repository!
+      git clone https://joaoswitch@bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765.git
+      cd devops-20-21-1201765/Ca3/part_2/tut-basic-gradle/
+      chmod u+x gradlew
+      ./gradlew clean build
+      # To deploy the war file to tomcat8 do the following command:
+      sudo cp ./build/libs/basic-0.0.1-SNAPSHOT.war /var/lib/tomcat8/webapps
+    SHELL
+
+  end
+
+end
+
