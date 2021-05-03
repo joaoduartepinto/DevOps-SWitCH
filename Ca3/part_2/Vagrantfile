@@ -75,7 +75,7 @@ Vagrant.configure("2") do |config|
 
       source /etc/profile.d/gradle.sh
 
-      cd
+      cd ~
 
       # If you want to access Tomcat admin web page do the following:
       # Edit /etc/tomcat8/tomcat-users.xml
