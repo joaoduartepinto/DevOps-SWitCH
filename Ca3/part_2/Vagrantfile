@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
 
       sudo unzip -d /opt/gradle gradle-7.0-bin.zip
 
-      sudo echo "/etc/profile.d/gradle.sh" "export PATH=$PATH:/opt/gradle/gradle-7.0/bin" >> /etc/profile.d/gradle.sh
+      sudo echo "export GRADLE_HOME=/opt/gradle/gradle-7.0" "export PATH=$PATH:/opt/gradle/gradle-7.0/bin" >> /etc/profile.d/gradle.sh
 
       source /etc/profile.d/gradle.sh
 
