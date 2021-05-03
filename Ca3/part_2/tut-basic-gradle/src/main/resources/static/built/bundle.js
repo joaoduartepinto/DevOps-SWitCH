@@ -34137,7 +34137,7 @@ var App = /*#__PURE__*/function (_React$Component) {
       // <2>
       client({
         method: 'GET',
-        path: '/api/employees'
+        path: '/0.0.1-SNAPSHOT/api/employees'
       }).done(function (response) {
         _this2.setState({
           employees: response.entity._embedded.employees
