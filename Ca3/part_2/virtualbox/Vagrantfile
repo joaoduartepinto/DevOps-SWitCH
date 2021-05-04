@@ -63,6 +63,8 @@ Vagrant.configure("2") do |config|
       sudo apt install tomcat8 -y
       sudo apt install tomcat8-admin -y
 
+        ### Gradle installation | Not needed, it will use gradle wrapper ###
+
       # Install gradle version 7.0
 
       #cd /tmp
@@ -75,7 +77,9 @@ Vagrant.configure("2") do |config|
 
       #sudo source /etc/profile.d/gradle.sh
 
-      #cd /
+      #cd
+
+        ### End gradle installation ###
 
       # If you want to access Tomcat admin web page do the following:
       # Edit /etc/tomcat8/tomcat-users.xml
