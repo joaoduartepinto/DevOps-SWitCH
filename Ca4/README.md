@@ -181,16 +181,32 @@ We can access the images:
 
 ## 6. Using volumes
 
-### 6.1.
+Volumes are the preferred mechanism for persisting the data generated and used by Docker containers, the volumes are 
+fully managed by Docker. A volume does not increase the size of the containers that use it, and the content of the volume
+exists outside the life cycle of a given container.
 
-### 6.2. Copy files inside container to volume
+### 6.1. Copy files inside container to volume
+
+To get a copy of the database file by using the exec command to run a shell in the container use:
 
 ```
-docker exec -it 9b44ea2cdae40f2d3b276326206eddcceee967f773fa49134b47c2c4bb9ab107 cp jpadb.mv.db /usr/src/data
+$ docker exec -it <container-id> cp jpadb.mv.db /usr/src/data
 ```
 
+The volume was set in docker-compose.yml:
 
-## 7. References
+```
+        volumes:
+              - ./data:/usr/src/data
+```
+
+## 7. Analysis of Alternative -
+
+
+## 8. Implementation of Alternative
+
+
+## 9. References
 
 [Dockerfile](https://docs.docker.com/engine/reference/builder/)
 [Docker Compose](https://docs.docker.com/compose/)
