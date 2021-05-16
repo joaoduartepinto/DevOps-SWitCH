@@ -20,6 +20,6 @@ WORKDIR /tmp/build/devops-20-21-1201765/Ca4/tut-basic-docker
 
 RUN ./gradlew clean build
 
-RUN cp build/libs/basic-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+RUN cp ./build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
