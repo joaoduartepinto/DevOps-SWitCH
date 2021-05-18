@@ -313,34 +313,114 @@ $ heroku war:deploy <path_to_war_file> --app <app_name>
 
 ### 8.5. Live
 
-The site is live:
+The site is live here:
 
 [https://devops-20-21-1201765.herokuapp.com](https://devops-20-21-1201765.herokuapp.com)
 
 ### 8.6. Connect with an external database
 
+Now we are going to deploy another application, but this time we will use a database that is in an aws container.
+
+The database used was Postgres, as Heroku has a free plugin, which provides a database hosted on an instance of aws.
+
 ### 8.6.1. Create database schema
 
-### 8.6.2. Postgre connection and setup
+We will need to generate the database schema so that we can enter it directly into the database, so we add the following
+content to the application.properties file and run the application. It will generate a file called create.sql that will
+contain the commands for the database setup.
+
+```
+...
+spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=create.sql
+spring.jpa.properties.hibernate.hbm2ddl.delimiter=;
+```
+
+The generated file must contain:
+
+```
+create sequence hibernate_sequence start with 1 increment by 1;
+create table employee (id bigint not null, description varchar(255), email varchar(255), first_name varchar(255), job_title varchar(255), last_name varchar(255), primary key (id));
+```
+
+### 8.6.2. Postgres connection and setup
+
+Now, on heroku.com within the application we are going to add the Heroku Postgres add-on. The option is found on the
+Resources page.
+
+![add-on](./assets/add-on.png)
+
+Now we go to Settings, and we show the Config Var, the link of the database will be shown.
+
+![database-link](./assets/database-link.png)
+
+Let's copy the link and decompose it, so that we can access the database through pgAdmin 4 (instructions for its
+installation can be found [here](https://www.pgadmin.org/download/)).
+
+![link-decompose](./assets/link-decompose.png)
+
+In pgAdmin 4 we must create a new server and fill in according to the following images (the names are based on the
+decomposed link).
+
+![pgAdmin1](./assets/pgAdmin1.png)
+
+![pgAdmin2](./assets/pgAdmin2.png)
+
+![pgAdmin3](./assets/pgAdmin3.png)
+
+![pgAdmin4](./assets/pgAdmin4.png)
+
+Then, we open the query tool and run the commands created and contained in the create.sql file.
+
+![pgAdmin5](./assets/pgAdmin5.png)
+
+![pgAdmin6](./assets/pgAdmin6.png)
 
 ### 8.6.3. Changes to application.properties
 
+In the application.properties file, we should comment out everything that is not necessary and define the url of the
+data source with the environment variable found in the Heroku container.
+This will make use of the environment variable that contains the database url.
+
+```
+spring.datasource.url=${DATABASE_URL}
+```
+
 ### 8.6.4. Deploy
 
-### 8.7. Live with Postgre
+Finally, we build and deploy again:
 
 ```
-heroku plugins:install java 
+$ ./gradlew build
 ```
 
 ```
- heroku war:deploy /Users/joaopinto/IdeaProjects/devops-20-21-1201765/Ca4/tut-basic-heroku/build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war --app devops-20-21-1201765
-
+$ heroku war:deploy <path_to_war_file> --app <app_name>
 ```
+
+If the Gods had us, the app will go online and make use of the external database.
+
+![postgres](assets/app-postgres.png)
+
+### 8.7. Live with Postgres
+
+The site is live here:
+
+[https://devops-20-21-1201765-postgres.herokuapp.com](https://devops-20-21-1201765-postgres.herokuapp.com)
+
+As we have the application with the free plan, if it is not used for 30 minutes it goes into hibernation, taking
+a while to start again when there is a new order. In our case, when the application is booted, two employees are added,
+so at the moment I took the screenshot there are already 6.
+
+![employees](./assets/six-employees.png)
 
 ## 9. References
 
 [Dockerfile](https://docs.docker.com/engine/reference/builder/)
+
 [Docker Compose](https://docs.docker.com/compose/)
-[War deployment](https://devcenter.heroku.com/articles/war-deployment)
+
 [Devcenter - Heroku](https://devcenter.heroku.com/articles/how-heroku-works)
+
+[War deployment](https://devcenter.heroku.com/articles/war-deployment)
