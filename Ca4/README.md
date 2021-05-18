@@ -200,11 +200,19 @@ The volume was set in docker-compose.yml:
               - ./data:/usr/src/data
 ```
 
-## 7. Analysis of Alternative -
+## 7. Analysis of Alternative - 
 
 
 ## 8. Implementation of Alternative
 
+```
+heroku plugins:install java 
+```
+
+```
+ heroku war:deploy /Users/joaopinto/IdeaProjects/devops-20-21-1201765/Ca4/tut-basic-heroku/build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war --app devops-20-21-1201765
+
+```
 
 ## 9. References
 
