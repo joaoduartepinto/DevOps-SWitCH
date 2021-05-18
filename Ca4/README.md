@@ -175,9 +175,9 @@ $ docker push <Docker-Hub-Name>/<image-name>
 
 We can access the images:
 
-[ca4_db](https://hub.docker.com/r/joaopintodev/ca4_db)
+**[ca4_db](https://hub.docker.com/r/joaopintodev/ca4_db)**
 
-[ca4_web](https://hub.docker.com/r/joaopintodev/ca4_web)
+**[ca4_web](https://hub.docker.com/r/joaopintodev/ca4_web)**
 
 ## 6. Using volumes
 
@@ -204,27 +204,130 @@ The volume was set in docker-compose.yml:
 
 ### 7.1. What is Heroku?
 
+Heroku is a cloud platform that enables companies to spend less time worried about infrastructure and deploying apps
+that immediately start producing value.
+
 ### 7.2. How Heroku Works?
+
+Heroku allows you to deploy applications in several languages.
+
+Whatever the type of application, it will not be necessary to change the code to be able to be run by Heroku.
+It is only necessary to inform which part of the application is executable (defined in the Procfile file at the root
+of the project).
+
+Heroku allows you to deploy via various platforms or tools, such as Git, Github, Hashicorp Terraform, War deployment
+or Docker-based deployments.
+
+In general, Heroku is an easy-to-use tool and there is a lot of documentation to help with its application.
 
 ## 8. Implementation of Alternative
 
+In this section, the steps for implementing the solution through Heroku will be described.
+
+The deployment method used is WAR deployment.
+
 ### 8.1. Create Account and Install Heroku
+
+First of all, we must create an account on heroku, through this link:
+
+[heroku.com](https://www.heroku.com)
+
+As my operating system is Mac OS, for the installation of Heroku, the following command was used:
+
+```
+brew tap heroku/brew && brew install heroku
+```
+
+The rest of the alternatives can be found [here](https://devcenter.heroku.com/articles/heroku-cli).
 
 ### 8.2. Prepare project to deploy
 
+**The first implementation will use a database in memory in the container deployed in Heroku.**
+
+### 8.2.1. Procfile
+For heroku to know which file will be executed, we have to create a text file called Procfile without extension
+that must contain:
+
+```
+web java $JAVA_OPTS -jar webapp-runner.jar ${WEBAPP_RUNNER_OPTS} --port $PORT ./build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war
+```
+
+### 8.2.2. app.js
+
+We must make changes so that http requests are correctly made:
+
+```
+	componentDidMount() { // <2>
+		client({method: 'GET', path: '/api/employees'}).done(response => {
+			this.setState({employees: response.entity._embedded.employees});
+		});
+	}
+```
+
+### 8.2.3. application.properties
+
+In the application.properties we have to enable the database in memory again:
+
+```
+...
+spring.datasource.url=jdbc:h2:mem:jpadb
+#spring.datasource.url=jdbc:h2:tcp://192.168.33.11:9092/./jpadb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+...
+```
+
 ### 8.3. Create an App at Heroku.com
+
+The process of creating an application is simple, just choose a name!
+
+![create-app-1](./assets/create-app-1.png)
+
+![create-app-2](./assets/create-app-2.png)
 
 ### 8.4. Deploy
 
-### 8.5. Connect with an external database
+So let's take care of the build and deploy!
 
-### 8.5.1. Create database schema
+In the terminal, at the base of the project we will log in to Heroku:
 
-### 8.5.2. Postgre connection and setup
+```
+$ heroku login
+```
 
-### 8.5.3. Changes to application.properties
+Next, let's build the project:
 
-### 8.5.4. Deploy
+```
+$ ./gradlew build
+```
+
+To deploy the war file created in the build we have to install the Heroku Java CLI plugin:
+
+```
+$ heroku plugins:install java
+```
+
+Now we just need to deploy!
+
+```
+$ heroku war:deploy <path_to_war_file> --app <app_name>
+```
+
+### 8.5. Live
+
+The site is live:
+
+[https://devops-20-21-1201765.herokuapp.com](https://devops-20-21-1201765.herokuapp.com)
+
+### 8.6. Connect with an external database
+
+### 8.6.1. Create database schema
+
+### 8.6.2. Postgre connection and setup
+
+### 8.6.3. Changes to application.properties
+
+### 8.6.4. Deploy
+
+### 8.7. Live with Postgre
 
 ```
 heroku plugins:install java 
@@ -240,3 +343,4 @@ heroku plugins:install java
 [Dockerfile](https://docs.docker.com/engine/reference/builder/)
 [Docker Compose](https://docs.docker.com/compose/)
 [War deployment](https://devcenter.heroku.com/articles/war-deployment)
+[Devcenter - Heroku](https://devcenter.heroku.com/articles/how-heroku-works)
