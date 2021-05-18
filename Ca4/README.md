@@ -196,14 +196,35 @@ $ docker exec -it <container-id> cp jpadb.mv.db /usr/src/data
 The volume was set in docker-compose.yml:
 
 ```
-        volumes:
-              - ./data:/usr/src/data
+    volumes:
+          - ./data:/usr/src/data
 ```
 
-## 7. Analysis of Alternative - 
+## 7. Analysis of Alternative - Heroku
 
+### 7.1. What is Heroku?
+
+### 7.2. How Heroku Works?
 
 ## 8. Implementation of Alternative
+
+### 8.1. Create Account and Install Heroku
+
+### 8.2. Prepare project to deploy
+
+### 8.3. Create an App at Heroku.com
+
+### 8.4. Deploy
+
+### 8.5. Connect with an external database
+
+### 8.5.1. Create database schema
+
+### 8.5.2. Postgre connection and setup
+
+### 8.5.3. Changes to application.properties
+
+### 8.5.4. Deploy
 
 ```
 heroku plugins:install java 
@@ -218,3 +239,4 @@ heroku plugins:install java
 
 [Dockerfile](https://docs.docker.com/engine/reference/builder/)
 [Docker Compose](https://docs.docker.com/compose/)
+[War deployment](https://devcenter.heroku.com/articles/war-deployment)
