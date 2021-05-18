@@ -26,8 +26,6 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.5'
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
-
-
 }
 
 test {

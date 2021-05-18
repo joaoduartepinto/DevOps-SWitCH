@@ -387,7 +387,26 @@ This will make use of the environment variable that contains the database url.
 spring.datasource.url=${DATABASE_URL}
 ```
 
-### 8.6.4. Deploy
+### 8.6.4. Changes to build.gradle
+
+In the dependencies of build.gradle you have to add the dependencies of postgres and spring jbdc, and comment on the dependency for H2:
+
+```
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.4.5'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+}
+```
+
+### 8.6.5. Deploy
 
 Finally, we build and deploy again:
 
