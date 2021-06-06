@@ -1,0 +1,43 @@
+pipeline {
+    
+    agent any
+    
+    stages {
+        
+        stage("Checkout") {
+            steps{
+                git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
+            }
+        }
+        
+        stage("Assemble") {
+            steps{
+                echo 'Assemble'
+                
+            
+                    sh './gradlew clean assemble'
+                
+            }
+        }
+    
+        stage("Test") {
+            steps{
+                echo 'Test'
+                
+                    sh './gradlew test'
+                    junit 'build/test-results/**/*.xml'
+                
+            }
+        }
+        
+        stage("Archive") {
+            steps{
+                echo 'Archive'
+                
+                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
+                
+            }
+        }
+        
+    }
+}

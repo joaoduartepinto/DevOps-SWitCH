@@ -205,7 +205,7 @@ The volume was set in docker-compose.yml:
 ### 7.1. What is Heroku?
 
 Heroku is a cloud platform that enables companies to spend less time worried about infrastructure and deploying apps
-that immediately start producing value.
+thatimmediately start producing value.
 
 ### 7.2. How Heroku Works?
 
