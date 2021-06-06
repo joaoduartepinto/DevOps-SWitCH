@@ -15,7 +15,14 @@ pipeline {
                 echo 'Assemble'
                 
                 dir('Ca2/part_2/tut-basic-gradle/'){
-                    sh './gradlew clean assemble'
+                    script {
+                        if(isUnix() == true) {
+                            sh './gradlew clean assemble'
+                        } else {
+                            bat './gradlew clean assemble'
+                        }
+                    }
+                    
                 }
             }
         }
@@ -24,7 +31,13 @@ pipeline {
             steps{
                 echo 'Test'
                 dir('Ca2/part_2/tut-basic-gradle/'){
-                    sh './gradlew test'
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew test'
+                        } else {
+                            bat './gradlew test'
+                        }
+                    }
                     junit 'build/test-results/**/*.xml'
                 }
             }
