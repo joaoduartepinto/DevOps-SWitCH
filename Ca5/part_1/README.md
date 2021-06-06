@@ -259,8 +259,26 @@ Hit save and let's build!
 
 ## 5. build from Jenkinsfile
 
+To use a Pipeline script that is in the remote repository, we have to create a file called Jenkinsfile without
+extension, and put the Pipeline that was previously developed in it (same as it is in 4.5. section).
 
-## References
+As we were using the project Ca2/part_2/tut-basic-gradle the Jenkinsfile was created in that folder.
+
+Now let's create a new job, just like the one created in point 2., but in the definition choose Pipeline script from
+SCM, it is necessary to put the url of the remote repository and the access credentials:
+
+![pipeline-SCM](assets/pipeline-SCM.png)
+
+In the Script Path we must put the path to access the Jenkinsfile, which in our case is found in
+Ca2/part_2/tut-basic-gradle/Jenkinsfile:
+
+![script-path](assets/script-path.png)
+
+Now we can save, and if the Gods are with us, the build will run smooth and flawless.
+
+![build-from-Jenkinsfile](assets/build-from-Jenkinsfile.png)
+
+## 6. References
 
 https://turkogluc.com/build-and-deploy-gradle-projects-with-jenkins/
 
