@@ -188,6 +188,7 @@ pipeline {
         
         stage("Checkout") {
             steps{
+                echo 'Checkout'
                 git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
             }
         }
@@ -195,7 +196,6 @@ pipeline {
         stage("Assemble") {
             steps{
                 echo 'Assemble'
-                
                 dir('Ca2/part_2/tut-basic-gradle/'){
                     script {
                         if(isUnix() == true) {
@@ -225,6 +225,27 @@ pipeline {
             }
         }
         
+        stage("Javadoc") {
+            steps{
+                echo 'Javadoc'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew javadoc'
+                        } else {
+                            bat './gradlew javadoc'
+                        }
+                    }
+                    publishHTML (target: [
+                        keepAll: true,
+                        reportDir: 'build/docs/javadoc/',
+                        reportFiles: 'index.html',
+                        reportName: 'Javadoc'
+                  ])
+                }
+            }
+        }
+        
         stage("Archive") {
             steps{
                 echo 'Archive'
@@ -234,6 +255,11 @@ pipeline {
             }
         }
         
+        stage("Publish Image") {
+            steps{
+                echo 'Publish Image'
+            }
+        }
     }
 }
 ```
