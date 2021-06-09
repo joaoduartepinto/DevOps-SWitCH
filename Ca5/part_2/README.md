@@ -1,57 +1,21 @@
-# Ca5 - part 1 - Jenkins
+# Ca5 - part 2 - Jenkins
 
-So let's start our Jenkins tutorial!
+So let's start our second Jenkins tutorial!
 
-## 1. Setup, using Jenkins in a docker image
+This time we're going to start right away, and then the project developed in Ca2/part_2 will be used.
 
-For this tutorial we used an official docker image containing Jenkins.
+## 1. Initial Setup
 
-It is only necessary to run the following command:
+The initial setup is the same as that carried out in Ca5/part_2 (steps 1. 2. and 3.), and can be found 
+[here](../part_1/README.md)!
 
-```
-$ docker run -d -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts-jdk11
-```
+## 2. Jenkins Pipeline
 
-For information to add about the image you can consult the following
-[repository](https://github.com/jenkinsci/docker/blob/master/README.md) on GitHub.
-
-If you run the command in the detached mode "-d", at the end of the image download and initialization it is necessary to
-run the following command to have access to the initial password of the Jenkins server:
-
-```
-$ docker exec <container_name> cat /var/jenkins_home/secrets/initialAdminPassword
-```
-
-Next, we access localhost:8080, introduce the password we got with the previous command, install the default plugins and
-create a user with a password so that we can use the server.
-
-## 2. Create a new job
-
-Now let's create a new pipeline job, click on new item, then give the new project a name and choose Pipeline mode and
-then hit okay.
-
-![new-job](assets/new-job.png)
-![pipeline-mode](assets/pipeline-mode.png)
-
-## 3. Add Credentials
-
-As the repository is private, it is necessary to send the access credentials to access the source code, but it is not
-advisable to have the username and password hard coded in the pipeline or in the repository, so we have to create
-credentials on the Jenkins server, which will be sent during the interaction with the remote repository.
-
-So we go to Manage Jenkins/Credentials/System/Global credentials (unrestricted) and click on Add Credentials.
-
-We introduce the access data to the remote repository, and save the id to put in the pipeline.
-
-![add-credentials_1](assets/add-credentials_1.png)
-![add-credentials_2](assets/add-credentials_2.png)
-
-## 4. Jenkins Pipeline
+### 2.1 Initial Layout
 
 Let's configure our Pipeline, accessing the configuration and in the pipeline section choose Pipeline script.
 
-![configure](assets/configure.png)
-![pipeline](assets/pipeline.png)
+![pipeline](../part_1/assets/pipeline.png)
 
 The initial layout of the pipeline was as follows:
 
@@ -80,19 +44,30 @@ pipeline {
             }
         }
         
+        stage("Javadoc") {
+            steps{
+                echo 'Javadoc'
+            }
+        }
+        
         stage("Archive") {
             steps{
                 echo 'Archive'
             }
         }
         
+        stage("Publish Image") {
+            steps{
+                echo 'Publish Image'
+            }
+        }
     }
 }
 ```
 
 Afterwards, the following changes were added.
 
-### 4.1. Checkout
+### 2.2. Checkout
 
 We now need the id of the previously created credentials and the url of the remote repository for the server to be able
 to checkout.
@@ -107,7 +82,7 @@ to checkout.
 ...
 ```
 
-### 4.2. Assemble
+### 2.3. Assemble
 
 For the Assemble stage, the gradle assemble command was used to generate the .jar file instead of the gradle build to
 run the tests on the next stage.
@@ -146,7 +121,7 @@ running, Unix like or Windows.
 ...
 ```
 
-### 4.3. Test
+### 2.4. Test
 
 In stage Test, we will use the gradle test to run the tests and the JUnit step to publish the test results.
 
@@ -170,9 +145,20 @@ In stage Test, we will use the gradle test to run the tests and the JUnit step t
 ...
 ```
 
-### 4.4. Archive
+### 2.5. Javadoc
 
-Finally, on the Archive stage, the archiveArtifacts step was used to archive the .jar file generated when running the
+build.gradle
+```
+javadoc {
+    classpath += sourceSets.main.compileClasspath
+    source += sourceSets.main.allJava
+}
+```
+
+
+### 2.6. Archive
+
+On the Archive stage, the archiveArtifacts step was used to archive the .jar file generated when running the
 gradle assemble.
 
 ```
@@ -188,7 +174,10 @@ gradle assemble.
 ...
 ```
 
-### 4.5. Final Pipeline Script
+### 2.7. Publish Image
+
+
+### 2.8. Final Pipeline Script
 
 ```
 pipeline {

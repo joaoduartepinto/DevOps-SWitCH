@@ -64,3 +64,8 @@ sourceSets {
         }
     }
 }
+
+javadoc {
+    classpath += sourceSets.main.compileClasspath
+    source += sourceSets.main.allJava
+}
