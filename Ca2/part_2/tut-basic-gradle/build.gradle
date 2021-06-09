@@ -4,6 +4,7 @@ plugins {
     id 'java'
     // Added to run fronted
     id "org.siouan.frontend" version "1.4.1"
+    id 'war'
 }
 
 group = 'com.devops20-21'

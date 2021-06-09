@@ -147,6 +147,8 @@ In stage Test, we will use the gradle test to run the tests and the JUnit step t
 
 ### 2.5. Javadoc
 
+install html publisher plugin
+
 build.gradle
 ```
 javadoc {
@@ -176,6 +178,135 @@ gradle assemble.
 
 ### 2.7. Publish Image
 
+instalar docker pipeline plugin
+
+adicionar docker credentials
+
+criar repo no docker hub para o Ca
+
+adicionar enviornment e cenas à task de publish image
+
+```
+docker run -p 8081:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home mdobak/docker-jenkins:latest
+```
+docker run -p 8080:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkinsci/blueocean
+```
+pipeline {
+    environment {
+        registry = 'joaopintodev/ca5-part2-jenkins'
+        registryCredential = 'docker-hub_credentials'
+        dockerImage = ''
+    }
+    
+    agent any
+    
+    stages {
+        
+        stage("Checkout") {
+            steps{
+                echo 'Checkout'
+                git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
+            }
+        }
+        
+        stage("Publish Image") {
+            steps{
+                echo 'Publish Image'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
+                        }
+                    }
+                    //sh "docker rmi $registry:$BUILD_NUMBER"
+                }
+            }
+        }
+        
+        stage("Assemble") {
+            steps{
+                echo 'Assemble'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script {
+                        if(isUnix() == true) {
+                            sh './gradlew clean assemble'
+                        } else {
+                            bat './gradlew clean assemble'
+                        }
+                    }
+                    
+                }
+            }
+        }
+    
+        stage("Test") {
+            steps{
+                echo 'Test'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew test'
+                        } else {
+                            bat './gradlew test'
+                        }
+                    }
+                    junit 'build/test-results/**/*.xml'
+                }
+            }
+        }
+        
+        stage("Javadoc") {
+            steps{
+                echo 'Javadoc'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew javadoc'
+                        } else {
+                            bat './gradlew javadoc'
+                        }
+                    }
+                    publishHTML (target: [
+                        keepAll: true,
+                        reportDir: 'build/docs/javadoc/',
+                        reportFiles: 'index.html',
+                        reportName: 'Javadoc'
+                  ])
+                }
+            }
+        }
+        
+        stage("Archive") {
+            steps{
+                echo 'Archive'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
+                }
+            }
+        }
+        
+        stage("Publish Image") {
+            steps{
+                echo 'Publish Image'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    //script{
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
+                      //  }
+                    }
+                    //sh "docker rmi $registry:$BUILD_NUMBER"
+                }
+            }
+        }
+    }
+}
+```
+
+937e914676a048a5998bf077e21a2cf5
+
+https://hub.docker.com/r/jenkinsci/blueocean
 
 ### 2.8. Final Pipeline Script
 
@@ -318,4 +449,6 @@ https://medium.com/@sergedevelops/getting-started-with-pipeline-as-code-using-ko
 https://www.jetbrains.com/help/teamcity/jenkins-to-teamcity-migration-guidelines.html#Build
 
 https://www.jetbrains.com/teamcity/
+
+https://dzone.com/articles/building-docker-images-to-docker-hub-using-jenkins
 
