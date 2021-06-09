@@ -1,0 +1,56 @@
+pipeline {
+    
+    agent any
+    
+    stages {
+        
+        stage("Checkout") {
+            steps{
+                git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
+            }
+        }
+        
+        stage("Assemble") {
+            steps{
+                echo 'Assemble'
+                
+                dir('Ca2/part_1/demo-gradle/'){
+                    script {
+                        if(isUnix() == true) {
+                            sh './gradlew clean assemble'
+                        } else {
+                            bat './gradlew clean assemble'
+                        }
+                    }
+                    
+                }
+            }
+        }
+    
+        stage("Test") {
+            steps{
+                echo 'Test'
+                dir('Ca2/part_1/demo-gradle/'){
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew test'
+                        } else {
+                            bat './gradlew test'
+                        }
+                    }
+                    junit 'build/test-results/**/*.xml'
+                }
+            }
+        }
+        
+        stage("Archive") {
+            steps{
+                echo 'Archive'
+                dir('Ca2/part_1/demo-gradle/'){
+                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
+                }
+            }
+        }
+       
+    }
+}

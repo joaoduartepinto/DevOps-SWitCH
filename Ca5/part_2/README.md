@@ -2,8 +2,6 @@
 
 So let's start our Jenkins tutorial!
 
-####Initial Disclaimer: Initially part 1 was carried out using the Ca2/part_2 project.
-
 ## 1. Setup, using Jenkins in a docker image
 
 For this tutorial we used an official docker image containing Jenkins.
@@ -14,7 +12,7 @@ It is only necessary to run the following command:
 $ docker run -d -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts-jdk11
 ```
 
-For information to add about the image you can consult the following 
+For information to add about the image you can consult the following
 [repository](https://github.com/jenkinsci/docker/blob/master/README.md) on GitHub.
 
 If you run the command in the detached mode "-d", at the end of the image download and initialization it is necessary to
@@ -114,7 +112,7 @@ to checkout.
 For the Assemble stage, the gradle assemble command was used to generate the .jar file instead of the gradle build to
 run the tests on the next stage.
 
-For this tutorial we used the project located in the folder Ca2/part_1/tut-basic-gradle/, so to run commands outside the
+For this tutorial we used the project located in the folder Ca2/part_2/tut-basic-gradle/, so to run commands outside the
 root of the project we have to use the following block:
 
 ```
@@ -133,7 +131,7 @@ running, Unix like or Windows.
             steps{
                 echo 'Assemble'
                 
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     script {
                         if(isUnix() == true) {
                             sh './gradlew clean assemble'
@@ -157,7 +155,7 @@ In stage Test, we will use the gradle test to run the tests and the JUnit step t
         stage("Test") {
             steps{
                 echo 'Test'
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     script{
                         if (isUnix() == true) {
                             sh './gradlew test'
@@ -182,7 +180,7 @@ gradle assemble.
         stage("Archive") {
             steps{
                 echo 'Archive'
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     archiveArtifacts artifacts: 'build/libs/**/*.jar'    
                 }
             }
@@ -209,7 +207,7 @@ pipeline {
             steps{
                 echo 'Assemble'
                 
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     script {
                         if(isUnix() == true) {
                             sh './gradlew clean assemble'
@@ -225,7 +223,7 @@ pipeline {
         stage("Test") {
             steps{
                 echo 'Test'
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     script{
                         if (isUnix() == true) {
                             sh './gradlew test'
@@ -241,12 +239,12 @@ pipeline {
         stage("Archive") {
             steps{
                 echo 'Archive'
-                dir('Ca2/part_1/demo-gradle/'){
+                dir('Ca2/part_2/tut-basic-gradle/'){
                     archiveArtifacts artifacts: 'build/libs/**/*.jar'    
                 }
             }
         }
-       
+        
     }
 }
 ```
@@ -264,7 +262,7 @@ Hit save and let's build!
 To use a Pipeline script that is in the remote repository, we have to create a file called Jenkinsfile without
 extension, and put the Pipeline that was previously developed in it (same as it is in 4.5. section).
 
-As we were using the project Ca2/part_1/demo-gradle the Jenkinsfile was created in that folder.
+As we were using the project Ca2/part_2/tut-basic-gradle the Jenkinsfile was created in that folder.
 
 Now let's create a new job, just like the one created in point 2., but in the definition choose Pipeline script from
 SCM, it is necessary to put the url of the remote repository and the access credentials:
@@ -272,7 +270,7 @@ SCM, it is necessary to put the url of the remote repository and the access cred
 ![pipeline-SCM](assets/pipeline-SCM.png)
 
 In the Script Path we must put the path to access the Jenkinsfile, which in our case is found in
-Ca2/part_1/demo-gradle/Jenkinsfile:
+Ca2/part_2/tut-basic-gradle/Jenkinsfile:
 
 ![script-path](assets/script-path.png)
 
@@ -287,3 +285,22 @@ https://turkogluc.com/build-and-deploy-gradle-projects-with-jenkins/
 https://stackoverflow.com/questions/44185165/what-are-the-differences-between-gradle-assemble-and-gradle-build-tasks
 
 https://www.jenkins.io/doc/pipeline/tour/tests-and-artifacts/
+
+docker run -it --name teamcity-server-instance  \
+    -v <path-to-data-directory>:/data/teamcity_server/datadir \
+    -v <path-to-logs-directory>:/opt/teamcity/logs  \
+    -p <port-on-host>:8111 \
+    jetbrains/teamcity-server
+
+https://hub.docker.com/r/jetbrains/teamcity-server/
+
+https://blog.jetbrains.com/teamcity/2019/03/configuration-as-code-part-2-working-with-kotlin-scripts/
+
+https://www.overops.com/blog/jenkins-vs-travis-ci-vs-circle-ci-vs-teamcity-vs-codeship-vs-gitlab-ci-vs-bamboo/
+
+https://medium.com/@sergedevelops/getting-started-with-pipeline-as-code-using-kotlin-and-teamcity-236ecb8ed6e
+
+https://www.jetbrains.com/help/teamcity/jenkins-to-teamcity-migration-guidelines.html#Build
+
+https://www.jetbrains.com/teamcity/
+
