@@ -14,7 +14,7 @@ pipeline {
             steps{
                 echo 'Assemble'
 
-                dir('Ca2/part_2/tut-basic-gradle/'){
+                dir('Ca2/part_1/demo-gradle/'){
                     script {
                         if(isUnix() == true) {
                             sh './gradlew clean assemble'
@@ -30,7 +30,7 @@ pipeline {
         stage("Test") {
             steps{
                 echo 'Test'
-                dir('Ca2/part_2/tut-basic-gradle/'){
+                dir('Ca2/part_1/demo-gradle/'){
                     script{
                         if (isUnix() == true) {
                             sh './gradlew test'
@@ -46,7 +46,7 @@ pipeline {
         stage("Archive") {
             steps{
                 echo 'Archive'
-                dir('Ca2/part_2/tut-basic-gradle/'){
+                dir('Ca2/part_1/demo-gradle/'){
                     archiveArtifacts artifacts: 'build/libs/**/*.jar'
                 }
             }
