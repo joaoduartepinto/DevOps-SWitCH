@@ -6,6 +6,20 @@ This time we're going to start right away, and then the project developed in Ca2
 
 ## 1. Initial Setup
 
+download war file
+
+fazer setup para jdk11 com o sdk
+
+correr o war com (dentro da pasta onde está)
+
+```
+$ java -jar jenkins.war --httpPort=9090
+```
+
+b1b3dd29194f4d50b10d56f2f91e0e4c
+
+https://www.jenkins.io/doc/book/installing/war-file/
+
 The initial setup is the same as that carried out in Ca5/part_2 (steps 1. 2. and 3.), and can be found 
 [here](../part_1/README.md)!
 
@@ -208,21 +222,7 @@ pipeline {
                 git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
             }
         }
-        
-        stage("Publish Image") {
-            steps{
-                echo 'Publish Image'
-                dir('Ca2/part_2/tut-basic-gradle/'){
-                    script{
-                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                        docker.withRegistry( '', registryCredential ) {
-                            dockerImage.push()
-                        }
-                    }
-                    //sh "docker rmi $registry:$BUILD_NUMBER"
-                }
-            }
-        }
+
         
         stage("Assemble") {
             steps{
@@ -281,7 +281,7 @@ pipeline {
             steps{
                 echo 'Archive'
                 dir('Ca2/part_2/tut-basic-gradle/'){
-                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
+                    archiveArtifacts artifacts: 'build/libs/**/*.war'    
                 }
             }
         }
@@ -290,11 +290,11 @@ pipeline {
             steps{
                 echo 'Publish Image'
                 dir('Ca2/part_2/tut-basic-gradle/'){
-                    //script{
+                    script{
                         dockerImage = docker.build registry + ":$BUILD_NUMBER"
                         docker.withRegistry( '', registryCredential ) {
                             dockerImage.push()
-                      //  }
+                        }
                     }
                     //sh "docker rmi $registry:$BUILD_NUMBER"
                 }
@@ -304,7 +304,6 @@ pipeline {
 }
 ```
 
-937e914676a048a5998bf077e21a2cf5
 
 https://hub.docker.com/r/jenkinsci/blueocean
 
@@ -452,3 +451,4 @@ https://www.jetbrains.com/teamcity/
 
 https://dzone.com/articles/building-docker-images-to-docker-hub-using-jenkins
 
+https://lobster1234.github.io/2019/04/05/docker-socket-file-for-ipc/
