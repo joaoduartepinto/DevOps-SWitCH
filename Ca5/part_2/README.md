@@ -459,44 +459,93 @@ The chosen alternative was TeamCity.
 
 ## 4.1. Introduction
 
-TeamCity is a Continuous Integration and Continuous Deployment (CI/CD) server developed by JetBrains. It supports a
-variety of languages, and being developed by JetBrains it has very good support and documentation.
+TeamCity is a Java-based Continuous Integration and Continuous Deployment (CI/CD) server developed by JetBrains. It
+supports a variety of languages, and being developed by JetBrains it has very good support and documentation.
 
 ## 4.2. What does it do?
 
+As a CI/CD tool, TeamCity's main goal is to improve release processes. With Teamcity it is possible to see test results
+as they are performed, see code coverage, customize statistics, code quality and other measures. TeamCity also offers
+source control, build chain tools, and detailed build history - features that are not available in a free tool like
+Jenkins.
 
 ## 4.3. Jenkins vs TeamCity Comparison
 
+So let's make a little comparison between Jenkins and TemaCity.
 
 ### 4.3.1. Installation & Configuration
 
+Installing and configuring the TeamCity server is easy, it just involves downloading the appropriate server for the
+operating system and following the instructions. The existence of extensive documentation on the official TeamCity
+website make the task much easier.
+
+Jenkins is also very easy to install. Its configuration is done using the web interface that includes built-in help and
+error checks.
 
 ### 4.3.2. Extensibility & Customization
 
+Jenkins and TeamCity offer RESTful API for extensibility. With TeamCity, you get multiple ways to customize, interact
+and extend your server. There are options for performing interaction through RESTful APIs, using service messages in
+build scripts and creating plug-ins for TeamCity using open API.
+
+The APIs in Jenkins are used to get information to trigger a new build to create or copy jobs.
 
 ### 4.3.3. Plugin Ecosystem
 
+Jenkins' plugin ecosystem is much more developed compared to TeamCity. Being an open-source project, the community
+contribution is far superior, with over 1500 plugins compared to the 400 plugins available in TeamCity.
+
+As plugins are ranging from build tools to language-specific development tools, it makes customization tasks simple and
+cost-effective since you would not require costly in-house customization.
 
 ### 4.3.4. Community Support
 
+Both TeamCity and Jenkins have an active community forum, but in the comparison between the two, Jenkins has greater
+community support, as it is an open-source project, users of Jenkins rely on the community for most of the requirements
+(ie installation, troubleshooting , and more)
 
 ### 4.3.5. Features & Capabilities
 
+TeamCity and Jenkins have a powerful set of features that makes the product ideal for CI/CD.
+
+TeamCity offers support for testing frameworks, code coverage, automatic detection of tool versions, static code
+analysis, and more All this support is provided out-of-the-box and does not require modification in build scripts or
+additional plugin installation.
+
+Jenkins, in turn, is not only used for building code but analyzing code as well. There is also support for almost all
+version control systems and build environments.
 
 ### 4.3.6. Ease Of Use
 
+In terms of ease of use, TeamCity's interface is better and clearer, and it can also be customized. This is not to say
+that Jenkins' interface is unusable, just that it is more focused on functionality than usability.
 
-### 4.3.7. Hosting
+### 4.3.7. Distributed Run (or Execution)
 
+Both TeamCity and Jenkins can run distributed i.e. tasks run through a different machine without causing an impact on 
+the GUI (build done in another agent).
 
-### 4.3.8. Distributed Run (or Execution)
+### 4.3.8. Open Source or Commercial
 
+Jenkins is open-source and free to use, so many smaller companies prefer to opt for Jenkins, where the only cost
+involved is running the infrastructure the server is running on.
 
-### 4.3.9. Open Source or Commercial
+TeamCity has two versions: a free one that has 100 build configurations and 3 build agents and paid licenses for $299 
+that adds one additional build agent per license.
 
+### 4.3.9. TeamCity vs. Jenkins Comparison Snapshot
 
-### 4.3.10. TeamCity vs. Jenkins Comparison Snapshot
-
+| **Feature** | **Teamcity** | **Jenkins** |
+|:---:|:---:|:---:|
+| Setup and Installation | Easy | Easy |
+| Ease of use | User-friendliness available with out-of-the-box usability | Comparatively less user friendly as the focus is on functionality than appearance |
+| Official Support | Yes | No official support but extensive support on IRC, Jenkins Forum, and other support channels |
+| Plugin ecosystem | Not so rich plugin ecosystem | Thrives on plugins (close to 1500+ plugins currently available) |
+| Parallelization | Yes | Yes (partial) |
+| Reporting | Yes | Yes |
+| Build Pipelines | Yes, Allows defining pipelines using a Kotlin-based DSL (Domain Specific Language) | Yes, Support for custom pipelines through Jenkins Pipeline DSL |
+| Integration | Yes, Amazon EC2, VMWare vSphere, Google Cloud, etc.Key Integrations: Docker, Maven, Visual Studio Team Services, NuGet, VCS Hosting Services | Yes, Amazon EC2, VMWare vSphere, Google Cloud, Atlassian Cloud, Slack, etc. through Jenkins Plugins |
+| Open Source or Commercial | Free for 100 build configuration | Free (open-source) |
 
 ## 5. Implementation of Alternative
 
