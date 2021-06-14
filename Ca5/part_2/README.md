@@ -453,17 +453,64 @@ Now we can save, and if the Gods are with us, the build will run smooth and flaw
 
 ![publish-docker-image-Jenkinsfile](assets/publish-docker-image-Jenkinsfile.png)
 
+## 4. Analysis of Alternative - TeamCity
+
+The chosen alternative was TeamCity.
+
+## 4.1. Introduction
+
+TeamCity is a Continuous Integration and Continuous Deployment (CI/CD) server developed by JetBrains. It supports a
+variety of languages, and being developed by JetBrains it has very good support and documentation.
+
+## 4.2. What does it do?
 
 
+## 4.3. Jenkins vs TeamCity Comparison
 
-## 6. References
+
+### 4.3.1. Installation & Configuration
+
+
+### 4.3.2. Extensibility & Customization
+
+
+### 4.3.3. Plugin Ecosystem
+
+
+### 4.3.4. Community Support
+
+
+### 4.3.5. Features & Capabilities
+
+
+### 4.3.6. Ease Of Use
+
+
+### 4.3.7. Hosting
+
+
+### 4.3.8. Distributed Run (or Execution)
+
+
+### 4.3.9. Open Source or Commercial
+
+
+### 4.3.10. TeamCity vs. Jenkins Comparison Snapshot
+
+
+## 5. Implementation of Alternative
+
+
+## 6. Final thoughts
+
+
+## 7. References
 
 https://turkogluc.com/build-and-deploy-gradle-projects-with-jenkins/
 
 https://stackoverflow.com/questions/44185165/what-are-the-differences-between-gradle-assemble-and-gradle-build-tasks
 
 https://www.jenkins.io/doc/pipeline/tour/tests-and-artifacts/
-
 
 https://hub.docker.com/r/jetbrains/teamcity-server/
 
@@ -482,3 +529,5 @@ https://dzone.com/articles/building-docker-images-to-docker-hub-using-jenkins
 https://lobster1234.github.io/2019/04/05/docker-socket-file-for-ipc/
 
 https://www.jenkins.io/doc/book/installing/war-file/
+
+https://www.lambdatest.com/blog/teamcity-vs-jenkins-picking-the-right-ci-cd-tool/
