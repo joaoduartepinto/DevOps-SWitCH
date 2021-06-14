@@ -6,21 +6,32 @@ This time we're going to start right away, and then the project developed in Ca2
 
 ## 1. Initial Setup
 
-download war file
+### Important warning
 
-fazer setup para jdk11 com o sdk
+In the first attempt at implementation, the container used in Ca5 part 1 was used, but I had difficulty using the docker
+engine present on the host (due to permissions issues), so in this part the Jenkins war file was used!
 
-correr o war com (dentro da pasta onde está)
+## 1.1. Jenkins war file
+
+To use jenkins from the war file is as simple as downloading it, and from the command line, in the folder where it
+was placed, run the following command:
 
 ```
-$ java -jar jenkins.war --httpPort=9090
+$ java -jar jenkins.war
 ```
 
-b1b3dd29194f4d50b10d56f2f91e0e4c
+Optionally we can specify the port:
 
-https://www.jenkins.io/doc/book/installing/war-file/
+```
+$ java -jar jenkins.war --httpPort=<port_number>
+```
 
-The initial setup is the same as that carried out in Ca5/part_2 (steps 1. 2. and 3.), and can be found 
+Make sure your machine is running jdk11, my first attempt was using jdk16 and had to change it using skd (Software
+Development Kit Manager).
+
+## 1.2. Create a new job and Add Credentials
+
+To Create a new job and Add Credentials follow the steps carried out in Ca5/part_2 (steps 2. and 3.), and can be found 
 [here](../part_1/README.md)!
 
 ## 2. Jenkins Pipeline
@@ -98,8 +109,17 @@ to checkout.
 
 ### 2.3. Assemble
 
-For the Assemble stage, the gradle assemble command was used to generate the .jar file instead of the gradle build to
+For the Assemble stage, the gradle assemble command was used to generate the .war file instead of the gradle build to
 run the tests on the next stage.
+
+It was also necessary to add the plugin that generates the war file in build.gradle:
+
+```
+plugins {
+    [...]
+    id 'war'
+}
+```
 
 For this tutorial we used the project located in the folder Ca2/part_2/tut-basic-gradle/, so to run commands outside the
 root of the project we have to use the following block:
@@ -161,9 +181,9 @@ In stage Test, we will use the gradle test to run the tests and the JUnit step t
 
 ### 2.5. Javadoc
 
-install html publisher plugin
+For the stage of generating the javadocs it was necessary to add the classpath and the source to the javadoc task of the
+gradle, adding the following to the build.gradle:
 
-build.gradle
 ```
 javadoc {
     classpath += sourceSets.main.compileClasspath
@@ -171,10 +191,44 @@ javadoc {
 }
 ```
 
+To publish the generated html it is necessary to install the plugin HTML Publisher on the page to manage the plugins.
+
+![html-publisher](./assets/html-publisher.png)
+
+In the pipeline, the Javadoc stage will look like this:
+
+```
+...
+        stage("Javadoc") {
+            steps{
+                echo 'Javadoc'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        if (isUnix() == true) {
+                            sh './gradlew javadoc'
+                        } else {
+                            bat './gradlew javadoc'
+                        }
+                    }
+                    publishHTML (target: [
+                        keepAll: true,
+                        reportDir: 'build/docs/javadoc/',
+                        reportFiles: 'index.html',
+                        reportName: 'Javadoc'
+                  ])
+                }
+            }
+        }
+...
+```
+
+In the project menu a new icon will appear, called Javadoc, which will take us to the generated index.html.
+
+![javadoc](./assets/javadoc.png)
 
 ### 2.6. Archive
 
-On the Archive stage, the archiveArtifacts step was used to archive the .jar file generated when running the
+On the Archive stage, the archiveArtifacts step was used to archive the .war file generated when running the
 gradle assemble.
 
 ```
@@ -183,7 +237,7 @@ gradle assemble.
             steps{
                 echo 'Archive'
                 dir('Ca2/part_2/tut-basic-gradle/'){
-                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
+                    archiveArtifacts artifacts: 'build/libs/**/*.war'    
                 }
             }
         }
@@ -192,18 +246,78 @@ gradle assemble.
 
 ### 2.7. Publish Image
 
-instalar docker pipeline plugin
+To build a docker image from a Jenkins pipeline, we first need to install the Docker Pipeline plugin.
 
-adicionar docker credentials
+![docker-pipeline-plugin](assets/docker-pipeline-plugin.png)
 
-criar repo no docker hub para o Ca
+Next, just like we did with the remote repository credentials, we need to add the Docker Hub access credentials.
 
-adicionar enviornment e cenas à task de publish image
+![docker-credentials](assets/docker-credentials.png)
+
+We also have to create a new repository in the docker hub to push the created images.
+
+![create-repo-docker](assets/create-repo-docker.png)
+
+To build using a Dockerfile, it is necessary to add a Dockerfile to the Ca2/part_2/tut-basic-gradle folder, with the
+following content:
 
 ```
-docker run -p 8081:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home mdobak/docker-jenkins:latest
+FROM tomcat
+
+RUN apt-get update -y
+
+RUN apt-get install -f
+
+RUN apt-get install git -y
+
+RUN apt-get install nodejs -y
+
+RUN apt-get install npm -y
+
+RUN mkdir -p /tmp/build
+
+ADD /build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+
+EXPOSE 8080
 ```
-docker run -p 8080:8080 -p 50000:50000 -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkinsci/blueocean
+
+The Dockerfile will copy the war file generated on the Assemble stage to the /usr/local/tomcat/webapps/ folder inside
+the image, thus avoiding the need to rebuild the project when building the image.
+
+Finally, in the pipeline we will add the Publish Image stage, adding the environment (with the necessary data for the
+image push) and the part of the stage itself:
+
+```
+pipeline {
+    environment {
+        registry = 'joaopintodev/ca5-part2-jenkins'
+        registryCredential = 'docker-hub_credentials'
+        dockerImage = ''
+    }
+    
+    [...]
+    
+    stage("Publish Image") {
+            steps{
+                echo 'Publish Image'
+                dir('Ca2/part_2/tut-basic-gradle/'){
+                    script{
+                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        docker.withRegistry( '', registryCredential ) {
+                            dockerImage.push()
+                        }
+                    }
+                    sh "docker rmi $registry:$BUILD_NUMBER"
+                }
+            }
+        }
+    }
+}
+```
+
+
+### 2.8. Final Pipeline Script
+
 ```
 pipeline {
     environment {
@@ -296,98 +410,8 @@ pipeline {
                             dockerImage.push()
                         }
                     }
-                    //sh "docker rmi $registry:$BUILD_NUMBER"
+                    sh "docker rmi $registry:$BUILD_NUMBER"
                 }
-            }
-        }
-    }
-}
-```
-
-
-https://hub.docker.com/r/jenkinsci/blueocean
-
-### 2.8. Final Pipeline Script
-
-```
-pipeline {
-    
-    agent any
-    
-    stages {
-        
-        stage("Checkout") {
-            steps{
-                echo 'Checkout'
-                git credentialsId: 'bitbucket-credentials', url: 'https://bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765/src/master/'
-            }
-        }
-        
-        stage("Assemble") {
-            steps{
-                echo 'Assemble'
-                dir('Ca2/part_2/tut-basic-gradle/'){
-                    script {
-                        if(isUnix() == true) {
-                            sh './gradlew clean assemble'
-                        } else {
-                            bat './gradlew clean assemble'
-                        }
-                    }
-                    
-                }
-            }
-        }
-    
-        stage("Test") {
-            steps{
-                echo 'Test'
-                dir('Ca2/part_2/tut-basic-gradle/'){
-                    script{
-                        if (isUnix() == true) {
-                            sh './gradlew test'
-                        } else {
-                            bat './gradlew test'
-                        }
-                    }
-                    junit 'build/test-results/**/*.xml'
-                }
-            }
-        }
-        
-        stage("Javadoc") {
-            steps{
-                echo 'Javadoc'
-                dir('Ca2/part_2/tut-basic-gradle/'){
-                    script{
-                        if (isUnix() == true) {
-                            sh './gradlew javadoc'
-                        } else {
-                            bat './gradlew javadoc'
-                        }
-                    }
-                    publishHTML (target: [
-                        keepAll: true,
-                        reportDir: 'build/docs/javadoc/',
-                        reportFiles: 'index.html',
-                        reportName: 'Javadoc'
-                  ])
-                }
-            }
-        }
-        
-        stage("Archive") {
-            steps{
-                echo 'Archive'
-                dir('Ca2/part_2/tut-basic-gradle/'){
-                    archiveArtifacts artifacts: 'build/libs/**/*.jar'    
-                }
-            }
-        }
-        
-        stage("Publish Image") {
-            steps{
-                echo 'Publish Image'
             }
         }
     }
@@ -396,13 +420,17 @@ pipeline {
 
 Hit save and let's build!
 
-![build-now.](assets/build-now.png)
+### Important warning
 
-### 4.6. After build view
+The desktop docker must be turned on, otherwise the build will fail because it cannot access Docker.
+
+### 2.9. After build view
 
 ![after-build](assets/after-build.png)
 
-## 5. build from Jenkinsfile
+![after-build-docker-repo](assets/after-build-docker-repo.png)
+
+## 3. build from Jenkinsfile
 
 To use a Pipeline script that is in the remote repository, we have to create a file called Jenkinsfile without
 extension, and put the Pipeline that was previously developed in it (same as it is in 4.5. section).
@@ -431,11 +459,6 @@ https://stackoverflow.com/questions/44185165/what-are-the-differences-between-gr
 
 https://www.jenkins.io/doc/pipeline/tour/tests-and-artifacts/
 
-docker run -it --name teamcity-server-instance  \
-    -v <path-to-data-directory>:/data/teamcity_server/datadir \
-    -v <path-to-logs-directory>:/opt/teamcity/logs  \
-    -p <port-on-host>:8111 \
-    jetbrains/teamcity-server
 
 https://hub.docker.com/r/jetbrains/teamcity-server/
 
@@ -452,3 +475,5 @@ https://www.jetbrains.com/teamcity/
 https://dzone.com/articles/building-docker-images-to-docker-hub-using-jenkins
 
 https://lobster1234.github.io/2019/04/05/docker-socket-file-for-ipc/
+
+https://www.jenkins.io/doc/book/installing/war-file/

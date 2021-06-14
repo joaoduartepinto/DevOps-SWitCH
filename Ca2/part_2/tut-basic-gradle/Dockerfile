@@ -12,16 +12,6 @@ RUN apt-get install npm -y
 
 RUN mkdir -p /tmp/build
 
-#WORKDIR /tmp/build/
-
-#RUN git clone https://joaoswitch@bitbucket.org/Joao_Pinto_1201765/devops-20-21-1201765.git
-
-#WORKDIR /tmp/build/devops-20-21-1201765/Ca2/part_2/tut-basic-gradle
-
-#RUN ./gradlew clean build
-
-#RUN cp ./build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
-
 ADD /build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
