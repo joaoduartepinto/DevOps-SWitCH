@@ -433,7 +433,7 @@ The desktop docker must be turned on, otherwise the build will fail because it c
 ## 3. build from Jenkinsfile
 
 To use a Pipeline script that is in the remote repository, we have to create a file called Jenkinsfile without
-extension, and put the Pipeline that was previously developed in it (same as it is in 4.5. section).
+extension, and put the Pipeline that was previously developed in it (same as it is in 2.8. section).
 
 As we were using the project Ca2/part_2/tut-basic-gradle the Jenkinsfile was created in that folder.
 
