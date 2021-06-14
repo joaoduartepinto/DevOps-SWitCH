@@ -451,6 +451,11 @@ Now we can save, and if the Gods are with us, the build will run smooth and flaw
 
 ![build-from-Jenkinsfile](assets/build-from-Jenkinsfile.png)
 
+![publish-docker-image-Jenkinsfile](assets/publish-docker-image-Jenkinsfile.png)
+
+
+
+
 ## 6. References
 
 https://turkogluc.com/build-and-deploy-gradle-projects-with-jenkins/
