@@ -620,6 +620,66 @@ kotlin script file.
 
 ![ide-first-view](assets/ide-first-view.png)
 
+Right-click on the pom.xml file and select Add as Maven Project – the IDE will import the Maven module and download the
+required dependencies.
+
+![maven-project](assets/maven-project.png)
+
+Now, let's add the build steps!
+
+### 5.3.1. Assemble
+
+Let's add the following step to settings.kts:
+
+```
+...
+    steps {
+        gradle {
+            tasks = "clean assemble"
+            gradleWrapperPath = ""
+        }
+    }
+...
+```
+
+Then, commit and push the changes.
+
+In TeamCity we go to Versioned Setting and we will update the new definitions.
+
+![update-settings](assets/update-settings.png)
+
+Now, to run the build, we go to projects and select the desired project and click on Run.
+
+![run](assets/run.png)
+
+After build view:
+
+![after-assemble](assets/after-assemble.png)
+
+### 5.3.2. Test
+
+Add the following to settings.kts: 
+
+```
+...
+        gradle {
+            name = "Test"
+            tasks = "test"
+            coverageEngine = idea {
+                includeClasses = "com.greglturnquist.payroll.*"
+            }
+        }
+...
+```
+
+We must update once again the build setting and run the build, as done in the last step.
+
+As soon as the tests are carried out, without further configuration, TeamCity immediately demonstrates the result on the
+build page.
+
+![tests](assets/tests.png)
+
+
 ## 6. Final thoughts
 
 
