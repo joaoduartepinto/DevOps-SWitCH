@@ -587,6 +587,39 @@ in TeamCity.
 
 ![create-project](assets/create-project.png)
 
+A new repository was created, which contains only the tut-basic-gradle project at the root of the project. We will use
+this repo to fill in the necessary data to create a new project from a repository URL.
+
+![create-project1](assets/create-project-1.png)
+
+Proceed:
+
+![create-project2](assets/create-project-2.png)
+
+Next, let's configure another repository to be used to have only the build configurations, thus keeping the project
+separate from the configuration. So let's go to Versioned Settings and put the access credentials to the repository.
+
+Let's create the new VCS root settings in Project VCS root settings.
+
+![settings-vcs-1](assets/settings-vcs-1.png)
+
+Choose synchronization enable, kotlin and use setting from VCS.
+
+![settings-vcs-2](assets/settings-vcs-2.png)
+
+When we press Apply, a commit will be made with the files needed for the setting's repository.
+
+![settings-vcs-3](assets/settings-vcs-3.png)
+
+### 5.3. TeamCity Pipeline
+
+To proceed with the configuration we will clone the configuration repository and open the project in our favorite IDE.
+
+Being a maven project, we will find a pom.xml file. We will also find the settings.kts configuration file, which is a
+kotlin script file.
+
+![ide-first-view](assets/ide-first-view.png)
+
 ## 6. Final thoughts
 
 
