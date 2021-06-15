@@ -274,8 +274,6 @@ RUN apt-get install nodejs -y
 
 RUN apt-get install npm -y
 
-RUN mkdir -p /tmp/build
-
 ADD /build/libs/tut-basic-gradle-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 EXPOSE 8080
@@ -549,6 +547,45 @@ that adds one additional build agent per license.
 
 ## 5. Implementation of Alternative
 
+### 5.1. TeamCity installation
+
+There are several ways to use TeamCity, for windows an executable file (.exe), a Docker image or a .tar.gz file for Unix
+based systems is available.
+
+For this tutorial the version for macOS, available [here](https://www.jetbrains.com/teamcity/?gclid=CjwKCAjwn6GGBhADEiwAruUcKjINKdw51V6c9IDT7NKm49qLFEkvkbwPOH1hb7ZOR9Pb7q3OkCG8JBoCY7IQAvD_BwE&gclsrc=aw.ds),
+was downloaded.
+
+After downloading it is necessary to unzip the .tar.gz file (for that, just open the file and it will be unpacked
+automatically).
+
+Now, to run TeamCity, in the terminal inside the TeamCity/bin folder, you need to run the following command:
+
+```
+$ ./runAll.sh start
+```
+
+![./runAll.sh-start](assets/runAll.sh-start.png)
+
+To stop TeamCity it is necessary to run:
+
+```
+$ ./runAll.sh stop
+```
+
+Now, in the browser, let's go localhost:8111 to finish the initial setup.
+
+Just proceed!
+
+![first-start](assets/first-start.png)
+
+![database-connection](assets/database-connection.png)
+
+### 5.2. Create Project
+
+After the initial setup, we will find the following page, where we will click on Create project to start a new project
+in TeamCity.
+
+![create-project](assets/create-project.png)
 
 ## 6. Final thoughts
 
