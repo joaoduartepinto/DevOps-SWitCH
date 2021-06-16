@@ -865,6 +865,11 @@ object HttpsJoaoswitchBitbucketOrgJoaoPinto1201765devopsTeamcityGitRefsHeadsMast
 
 ## 6. Final thoughts
 
+![jenkins-vs-teamcity](assets/Jenkins-vs-TeamCity.jpg)
+
+There is not much difference in terms of feature comparison between the two products. Do you intend to go with an
+open-source CI/CD tool like Jenkins that is feature-rich but less friendly to use? Do you want to go with a premium
+alternative like TeamCity that is also feature-rich and user-friendly? The choice is yours!
 
 ## 7. References
 
@@ -893,3 +898,7 @@ https://lobster1234.github.io/2019/04/05/docker-socket-file-for-ipc/
 https://www.jenkins.io/doc/book/installing/war-file/
 
 https://www.lambdatest.com/blog/teamcity-vs-jenkins-picking-the-right-ci-cd-tool/
+
+https://www.rudeshko.com/ci/2014/01/12/teamcity-iframe.html
+
+https://octopus.com/blog/build-a-real-world-docker-cicd-pipeline
