@@ -679,6 +679,189 @@ build page.
 
 ![tests](assets/tests.png)
 
+### 5.3.3. Javadoc
+
+To generate javadoc, we have to include the Javadoc step and archive the generated files to be able to publish them.
+
+```
+...
+
+    artifactRules = """
+        build/docs => build/docs
+    """.trimIndent()
+    
+...
+
+    gradle {
+            name = "Javadoc"
+            tasks = "javadoc"
+        }
+...
+```
+
+Then we have to make a new build with the new configuration and then we have to add a new Report tab that through the
+use of the generated files will display the project's javadoc.
+
+![report-tab](assets/report-tab.png)
+
+![javadoc-teamcity](assets/javadoc-teamcity.png)
+
+
+### 5.3.4. Archive
+
+To archive the .war file we just have to add the path to that file in the artifactRules section.
+
+```
+...
+    artifactRules = """
+        build/libs/**/*.war
+        build/docs => build/docs
+    """.trimIndent()
+...
+```
+
+![archive](assets/archive.png)
+
+### 5.3.5. Publish Image
+
+In order to publish the Docker image, we need to put our Docker Hub access credentials in the connections section of the
+project by selecting add connection.
+
+![docker-hub-registry](assets/docker-hub-registry.png)
+
+Then the following is added to the settings.kts file:
+
+```
+    features {
+        dockerRegistry {
+            id = "PROJECT_EXT_2"
+            name = "Docker Registry"
+            url = "https://docker.io"
+            userName = "joaopintodev"
+            password = "credentialsJSON:d1d7d8a9-8fa4-43c7-9797-caa279db8ab7"
+        }
+    }
+```
+
+Now we need to add the Build and Publish Image steps:
+
+```
+...
+        dockerCommand {
+            name = "Build Image"
+            commandType = build {
+                source = file {
+                    path = "Dockerfile"
+                }
+                namesAndTags = "joaopintodev/ca5-part2-teamcity:%build.counter%"
+                commandArgs = "--pull"
+            }
+            param("docker.sub.command", "build")
+        }
+
+        dockerCommand {
+            name = "Push Image"
+            commandType = push {
+                namesAndTags = "joaopintodev/ca5-part2-teamcity:%build.counter%"
+            }
+        }
+...        
+```
+
+Let's once again update the settings and build.
+
+![publish-image-1](assets/publish-image-1.png)
+
+![publish-image-2](assets/publish-image-2.png)
+
+### 5.3.6. Final TeamCity Pipeline
+
+```
+version = "2021.1"
+
+project {
+
+    vcsRoot(HttpsJoaoswitchBitbucketOrgJoaoPinto1201765devopsTeamcityGitRefsHeadsMaster)
+
+    buildType(Build)
+
+    features {
+        dockerRegistry {
+            id = "PROJECT_EXT_2"
+            name = "Docker Registry"
+            url = "https://docker.io"
+            userName = "joaopintodev"
+            password = "credentialsJSON:d1d7d8a9-8fa4-43c7-9797-caa279db8ab7"
+        }
+    }
+}
+
+object Build : BuildType({
+    name = "Build"
+
+    artifactRules = """
+        build/libs/**/*.war
+        build/docs => build/docs
+    """.trimIndent()
+
+    vcs {
+        root(HttpsJoaoswitchBitbucketOrgJoaoPinto1201765devopsTeamcityGitRefsHeadsMaster)
+    }
+
+    steps {
+        gradle {
+            tasks = "clean assemble"
+            gradleWrapperPath = ""
+        }
+        gradle {
+            name = "Test"
+            tasks = "test"
+            coverageEngine = idea {
+                includeClasses = "com.greglturnquist.payroll.*"
+            }
+        }
+        gradle {
+            name = "Javadoc"
+            tasks = "javadoc"
+        }
+
+        dockerCommand {
+            name = "Build Image"
+            commandType = build {
+                source = file {
+                    path = "Dockerfile"
+                }
+                namesAndTags = "joaopintodev/ca5-part2-teamcity:%build.counter%"
+                commandArgs = "--pull"
+            }
+            param("docker.sub.command", "build")
+        }
+
+        dockerCommand {
+            name = "Push Image"
+            commandType = push {
+                namesAndTags = "joaopintodev/ca5-part2-teamcity:%build.counter%"
+            }
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+})
+
+object HttpsJoaoswitchBitbucketOrgJoaoPinto1201765devopsTeamcityGitRefsHeadsMaster : GitVcsRoot({
+    name = "https://joaoswitch@bitbucket.org/Joao_Pinto_1201765/devops-teamcity.git#refs/heads/master"
+    url = "https://joaoswitch@bitbucket.org/Joao_Pinto_1201765/devops-teamcity.git"
+    branch = "refs/heads/master"
+    branchSpec = "refs/heads/*"
+    authMethod = password {
+        userName = "1201765@isep.ipp.pt"
+        password = "credentialsJSON:f18b5ccc-08d9-4d32-9522-489bfb589c2a"
+    }
+})
+```
 
 ## 6. Final thoughts
 
